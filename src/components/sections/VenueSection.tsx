@@ -55,7 +55,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       
       const script = document.createElement('script');
       script.async = true;
-      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false`;
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&libraries=services&autoload=false`;
       script.onload = () => {
         window.kakao.maps.load(() => {
           console.log('카카오맵 스크립트 로드 완료');
@@ -87,35 +87,47 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       try {
         console.log('카카오맵 초기화 시작');
         
-        const lat = weddingConfig.venue.coordinates.latitude;
-        const lng = weddingConfig.venue.coordinates.longitude;
+        // 장소 검색 객체 생성
+        const ps = new window.kakao.maps.services.Places();
         
-        // 지도 생성
-        const mapOption = {
-          center: new window.kakao.maps.LatLng(lat, lng),
-          level: 3 // 지도 확대 레벨
-        };
-        
-        const map = new window.kakao.maps.Map(mapRef.current, mapOption);
-        
-        // 마커 생성
-        const markerPosition = new window.kakao.maps.LatLng(lat, lng);
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition
+        // 장소명으로 검색
+        ps.keywordSearch(weddingConfig.venue.name, (data: any, status: any) => {
+          if (status === window.kakao.maps.services.Status.OK && data.length > 0) {
+            const place = data[0];
+            const lat = parseFloat(place.y);
+            const lng = parseFloat(place.x);
+            
+            // 지도 생성
+            const mapOption = {
+              center: new window.kakao.maps.LatLng(lat, lng),
+              level: 3
+            };
+            
+            const map = new window.kakao.maps.Map(mapRef.current, mapOption);
+            
+            // 마커 생성
+            const markerPosition = new window.kakao.maps.LatLng(lat, lng);
+            const marker = new window.kakao.maps.Marker({
+              position: markerPosition
+            });
+            marker.setMap(map);
+            
+            // 인포윈도우 생성
+            const infowindow = new window.kakao.maps.InfoWindow({
+              content: `<div style="padding:10px;min-width:150px;text-align:center;font-size:14px;"><strong>${weddingConfig.venue.name}</strong></div>`
+            });
+            infowindow.open(map, marker);
+            
+            // 줌 컨트롤 추가
+            const zoomControl = new window.kakao.maps.ZoomControl();
+            map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+            
+            console.log('카카오맵 초기화 완료');
+          } else {
+            console.error('장소 검색 실패');
+            setMapError(true);
+          }
         });
-        marker.setMap(map);
-        
-        // 인포윈도우 생성
-        const infowindow = new window.kakao.maps.InfoWindow({
-          content: `<div style="padding:10px;min-width:150px;text-align:center;font-size:14px;"><strong>${weddingConfig.venue.name}</strong></div>`
-        });
-        infowindow.open(map, marker);
-        
-        // 줌 컨트롤 추가
-        const zoomControl = new window.kakao.maps.ZoomControl();
-        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-        
-        console.log('카카오맵 초기화 완료');
         
       } catch (error) {
         console.error('카카오맵 초기화 오류:', error);
@@ -145,7 +157,8 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   // 길찾기 링크 생성 함수들
   const navigateToNaver = () => {
     if (typeof window !== 'undefined') {
-      const naverMapsUrl = `https://map.naver.com/p/directions/-/-/-/walk/place/${weddingConfig.venue.placeId}?c=${weddingConfig.venue.mapZoom},0,0,0,dh`;
+      const name = encodeURIComponent(weddingConfig.venue.name);
+      const naverMapsUrl = `https://map.naver.com/p/search/${name}`;
       window.open(naverMapsUrl, '_blank');
     }
   };
@@ -160,20 +173,6 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
     }
   };
   
-  const navigateToTmap = () => {
-    if (typeof window !== 'undefined') {
-      const lat = weddingConfig.venue.coordinates.latitude;
-      const lng = weddingConfig.venue.coordinates.longitude;
-      const name = encodeURIComponent(weddingConfig.venue.name);
-      
-      window.location.href = `tmap://route?goalname=${name}&goaly=${lat}&goalx=${lng}`;
-      
-      setTimeout(() => {
-        if(document.hidden) return;
-        window.location.href = 'https://tmap.co.kr';
-      }, 1000);
-    }
-  };
   
   return (
     <VenueSectionContainer $bgColor={bgColor}>
@@ -207,9 +206,6 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
           <NavigateButton onClick={navigateToKakao} $mapType="kakao">
             카카오맵
           </NavigateButton>
-          <NavigateButton onClick={navigateToTmap} $mapType="tmap">
-            TMAP
-          </NavigateButton>
         </NavigateButtonsContainer>
       </FadeInUp>
       
@@ -239,7 +235,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
 };
 
 const VenueSectionContainer = styled.section<{ $bgColor: 'white' | 'beige' }>`
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   text-align: center;
   background-color: ${props => props.$bgColor === 'beige' ? '#F8F6F2' : 'white'};
 `;
@@ -342,7 +338,7 @@ const NavigateButtonsContainer = styled.div`
   margin-right: auto;
 `;
 
-const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' | 'tmap' }>`
+const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' }>`
   flex: 1;
   min-width: 6rem;
   background-color: var(--secondary-color);
@@ -422,21 +418,21 @@ const ShuttleCard = styled(Card)`
 
 const CardTitle = styled.h4`
   font-weight: 500;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
 `;
 
 const TransportItem = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 `;
 
 const TransportLabel = styled.p`
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
 `;
 
 const TransportText = styled.p`
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--text-medium);
   white-space: pre-line;
 `;

@@ -206,7 +206,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
 };
 
 const AccountSectionContainer = styled.section<{ $bgColor: 'white' | 'beige' }>`
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   text-align: center;
   background-color: ${props => props.$bgColor === 'beige' ? '#F8F6F2' : 'white'};
 `;

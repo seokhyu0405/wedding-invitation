@@ -94,7 +94,7 @@ const InvitationSection = ({ bgColor = 'white' }: InvitationSectionProps) => {
 };
 
 const InvitationSectionContainer = styled.section<{ $bgColor: 'white' | 'beige' }>`
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   text-align: center;
   background-color: ${props => props.$bgColor === 'beige' ? '#F8F6F2' : 'white'};
 `;

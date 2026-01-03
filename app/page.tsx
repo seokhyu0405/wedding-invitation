@@ -22,6 +22,7 @@ const GallerySection = dynamic(() => import('../src/components/sections/GalleryS
 
 const InvitationSection = dynamic(() => import('../src/components/sections/InvitationSection'));
 const RsvpSection = dynamic(() => import('../src/components/sections/RsvpSection'));
+const ContactSection = dynamic(() => import('../src/components/sections/ContactSection'));
 const AccountSection = dynamic(() => import('../src/components/sections/AccountSection'));
 const Footer = dynamic(() => import('../src/components/sections/Footer'));
 
@@ -51,6 +52,7 @@ export default function Home() {
       sections.push('gallery-bottom'); // GallerySection (bottom)
     }
     
+    sections.push('contact'); // ContactSection
     sections.push('account'); // AccountSection
     
     // 각 섹션에 색상 인덱스 할당 (0부터 시작하여 번갈아가며)
@@ -71,6 +73,7 @@ export default function Home() {
       {galleryPosition === 'middle' && <GallerySection bgColor={sectionColorMap['gallery-middle']} />}
       {showRsvp && <RsvpSection bgColor={sectionColorMap['rsvp']} />}
       {galleryPosition === 'bottom' && <GallerySection bgColor={sectionColorMap['gallery-bottom']} />}
+      <ContactSection bgColor={sectionColorMap['contact']} />
       <AccountSection bgColor={sectionColorMap['account']} />
       <Footer />
     </main>
