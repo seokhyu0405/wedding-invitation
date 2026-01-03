@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <title>{weddingConfig.meta.title}</title>
         <meta name="description" content={weddingConfig.meta.description} />
