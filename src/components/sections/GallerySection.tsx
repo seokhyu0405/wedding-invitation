@@ -379,6 +379,25 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
               />
             </ExpandedImageWrapper>
             <CloseButton onClick={handleCloseExpanded} aria-label="닫기">×</CloseButton>
+            
+            {/* 하단 네비게이션 버튼 */}
+            <BottomNavigation>
+              <NavButton 
+                onClick={goToPreviousImage} 
+                disabled={expandedImageIndex <= 0}
+                aria-label="이전 이미지"
+              >
+                <ArrowLeftIcon />
+              </NavButton>
+              <ImageCounter>{expandedImageIndex + 1} / {images.length}</ImageCounter>
+              <NavButton 
+                onClick={goToNextImage} 
+                disabled={expandedImageIndex >= images.length - 1}
+                aria-label="다음 이미지"
+              >
+                <ArrowRightIcon />
+              </NavButton>
+            </BottomNavigation>
           </ExpandedImageContainer>
         </ExpandedImageOverlay>
       )}
@@ -606,6 +625,50 @@ const LoadingSpinnerContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
+`;
+
+const BottomNavigation = styled.div`
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 10;
+`;
+
+const NavButton = styled.button<{ disabled?: boolean }>`
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${({ disabled }) => disabled ? 0.3 : 0.9};
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  
+  &:hover:not(:disabled) {
+    opacity: 1;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  }
+  
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+`;
+
+const ImageCounter = styled.span`
+  color: white;
+  font-size: 1rem;
+  font-family: 'MaruBuri', sans-serif;
+  min-width: 4rem;
+  text-align: center;
 `;
 
 const GalleryGridContainer = styled.div`
