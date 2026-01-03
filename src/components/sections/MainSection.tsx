@@ -52,7 +52,7 @@ const MainSectionContainer = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 6rem;
+  padding-bottom: 2.5rem;
   text-align: center;
   color: white;
   overflow: hidden;
@@ -70,6 +70,12 @@ const MainSectionContainer = styled.section`
 
 const BackgroundImage = styled(Image)`
   z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Overlay = styled.div`
@@ -92,163 +98,70 @@ const MainContent = styled.div`
 const MainTitle = styled.h1`
   font-family: 'GoldenPlains', 'PlayfairDisplay', 'Times New Roman', serif;
   font-style: normal;
-  font-size: 2.5rem;
-  min-height: 2.5rem;
+  font-size: 3.5rem;
+  min-height: 3.5rem;
   letter-spacing: 2px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 400;
   line-height: 1.2;
   
-  /* 기본 크기에서 세로 길이가 짧을 때 */
-  @media (min-width: 769px) and (max-height: 700px) {
-    letter-spacing: 1.5px;
-    margin-bottom: 0.8rem;
-  }
-  @media (min-width: 769px) and (max-height: 600px) {
-    letter-spacing: 1px;
-    margin-bottom: 0.6rem;
-  }
-  
   @media (max-width: 768px) {
-    font-size: 2.25rem;
-    min-height: 2.25rem;
-  }
-  
-  /* 768px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 768px) and (max-height: 650px) {
-    letter-spacing: 1px;
-    margin-bottom: 0.8rem;
-  }
-  @media (max-width: 768px) and (max-height: 550px) {
-    letter-spacing: 0.5px;
-    margin-bottom: 0.6rem;
+    font-size: 3rem;
+    min-height: 3rem;
   }
   
   @media (max-width: 450px) {
-    font-size: 1.75rem;
-    min-height: 1.75rem;
-    letter-spacing: 1.5px;
-  }
-  
-  /* 450px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 450px) and (max-height: 600px) {
-    letter-spacing: 1px;
-    margin-bottom: 0.8rem;
-  }
-  @media (max-width: 450px) and (max-height: 500px) {
-    letter-spacing: 0.5px;
-    margin-bottom: 0.6rem;
+    font-size: 2.5rem;
+    min-height: 2.5rem;
   }
   
   @media (max-width: 360px) {
-    font-size: 1.5rem;
-    min-height: 1.5rem;
-    letter-spacing: 1px;
-  }
-  
-  /* 360px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 360px) and (max-height: 550px) {
-    letter-spacing: 0.5px;
-    margin-bottom: 0.8rem;
-  }
-  @media (max-width: 360px) and (max-height: 450px) {
-    letter-spacing: 0.2px;
-    margin-bottom: 0.6rem;
+    font-size: 2rem;
+    min-height: 2rem;
   }
   
   @media (max-width: 295px) {
-    font-size: 1.35rem;
-    min-height: 1.35rem;
-    letter-spacing: 0.5px;
-  }
-  
-  /* 295px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 295px) and (max-height: 500px) {
-    letter-spacing: 0.2px;
-    margin-bottom: 0.8rem;
-  }
-  @media (max-width: 295px) and (max-height: 400px) {
-    letter-spacing: 0px;
-    margin-bottom: 0.6rem;
+    font-size: 1.75rem;
+    min-height: 1.75rem;
   }
 `;
 
 const DateText = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  
-  /* 기본 크기에서 세로 길이가 짧을 때 */
-  @media (min-width: 769px) and (max-height: 700px) {
-    margin-bottom: 0.4rem;
-  }
-  @media (min-width: 769px) and (max-height: 600px) {
-    margin-bottom: 0.3rem;
-  }
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
   
   @media (max-width: 768px) {
-    font-size: 1.05rem;
-    min-height: 0.3rem;
-  }
-  
-  /* 768px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 768px) and (max-height: 650px) {
-    margin-bottom: 0.4rem;
-  }
-  @media (max-width: 768px) and (max-height: 550px) {
-    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
   }
   
   @media (max-width: 450px) {
-    font-size: 0.95rem;
-    margin-bottom: 0.15rem;
-  }
-  
-  /* 450px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 450px) and (max-height: 600px) {
-    margin-bottom: 0.1rem;
-  }
-  @media (max-width: 450px) and (max-height: 500px) {
-    margin-bottom: 0.05rem;
+    font-size: 0.8rem;
   }
   
   @media (max-width: 360px) {
-    font-size: 0.9rem;
-    margin-bottom: 0.1rem;
-  }
-  
-  /* 360px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 360px) and (max-height: 550px) {
-    margin-bottom: 0.05rem;
-  }
-  @media (max-width: 360px) and (max-height: 450px) {
-    margin-bottom: 0.02rem;
+    font-size: 0.75rem;
   }
   
   @media (max-width: 295px) {
-    font-size: 0.8rem;
-    margin-bottom: 0.05rem;
-  }
-  
-  /* 295px 이하에서 세로 길이가 짧을 때 */
-  @media (max-width: 295px) and (max-height: 500px) {
-    margin-bottom: 0.02rem;
-  }
-  @media (max-width: 295px) and (max-height: 400px) {
-    margin-bottom: 0rem;
+    font-size: 0.7rem;
   }
 `;
 
 const VenueText = styled.p`
   font-size: 0.9rem;
+  
   @media (max-width: 768px) {
     font-size: 0.85rem;
   }
+  
   @media (max-width: 450px) {
     font-size: 0.8rem;
   }
+  
   @media (max-width: 360px) {
     font-size: 0.75rem;
   }
+  
   @media (max-width: 295px) {
     font-size: 0.7rem;
   }
