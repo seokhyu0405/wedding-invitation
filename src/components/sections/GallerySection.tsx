@@ -12,21 +12,15 @@ interface GallerySectionProps {
 
 // SVG 화살표 아이콘 컴포넌트 추가
 const ArrowLeftIcon = styled(({ className }: { className?: string }) => (
-  <svg className={className} width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="14" cy="14" r="14" fill="none"/>
-    <path d="M17.5 7L11 14L17.5 21" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg className={className} width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 12L18 24L30 36" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
-))`
-  margin-left: -0.25rem;
-`;
+))``;
 const ArrowRightIcon = styled(({ className }: { className?: string }) => (
-  <svg className={className} width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="14" cy="14" r="14" fill="none"/>
-    <path d="M10.5 7L17 14L10.5 21" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg className={className} width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 12L30 24L18 36" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
-))`
-  margin-right: -0.25rem;
-`;
+))``;
 
 // 로딩 스피너 컴포넌트 추가
 const LoadingSpinner = styled.div`
@@ -582,22 +576,24 @@ const CloseButton = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: var(--secondary-color);
+  background-color: transparent;
   color: white;
   border: none;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   cursor: pointer;
   z-index: 10;
-  opacity: 0.9;
+  opacity: 1;
+  transition: opacity 0.3s ease;
   
   &:hover {
-    opacity: 1;
+    opacity: 0.7;
+  }
+  
+  &:active {
+    transform: scale(0.9);
   }
 `;
 
@@ -630,37 +626,33 @@ const LoadingSpinnerContainer = styled.div`
 
 const BottomNavigation = styled.div`
   position: absolute;
-  bottom: 2rem;
+  bottom: 4rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 3rem;
   z-index: 10;
 `;
 
 const NavButton = styled.button<{ disabled?: boolean }>`
-  background-color: var(--secondary-color);
+  background-color: transparent;
   color: white;
   border: none;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
-  opacity: ${({ disabled }) => disabled ? 0.3 : 0.9};
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: ${({ disabled }) => disabled ? 0.3 : 1};
+  transition: opacity 0.3s ease;
+  font-size: 2.5rem;
   
   &:hover:not(:disabled) {
-    opacity: 1;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    opacity: 0.8;
   }
   
   &:active:not(:disabled) {
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
 `;
 
