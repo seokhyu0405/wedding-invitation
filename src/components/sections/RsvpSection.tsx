@@ -271,7 +271,8 @@ const SectionTitle = styled.h2`
   display: inline-block;
   margin-bottom: 2rem;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  letter-spacing: 0.1em;
   
   &::after {
     content: '';
@@ -369,6 +370,7 @@ const AttendanceButton = styled.button<{ $selected?: boolean }>`
   background-color: ${props => props.$selected ? 'var(--secondary-color)' : 'transparent'};
   color: ${props => props.$selected ? 'white' : 'var(--text-medium)'};
   font-size: 0.9rem;
+  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -445,6 +447,7 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
+  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;

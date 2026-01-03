@@ -216,7 +216,8 @@ const SectionTitle = styled.h2`
   display: inline-block;
   margin-bottom: 2rem;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  letter-spacing: 0.1em;
   
   &::after {
     content: '';
@@ -369,6 +370,7 @@ const CopyButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.85rem;
+  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   white-space: nowrap;
   transition: all 0.2s ease;
   margin-left: 0.5rem;
@@ -432,6 +434,7 @@ const ShareButton = styled.button<{ $isShare?: boolean }>`
   border-radius: 4px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
+  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;

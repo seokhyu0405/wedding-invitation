@@ -67,12 +67,20 @@ export const GlobalStyle = createGlobalStyle`
     font-style: italic;
     font-display: block;
   }
+
+  @font-face {
+    font-family: 'GoldenPlains';
+    src: url('/fonts/Golden Plains - Demo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
   
   /* 컨텐츠가 바로 보이지만 폰트가 로드되면 레이아웃이 바뀌는 것을 방지 */
   html, body {
     visibility: visible;
     opacity: 1;
-    font-size: 16px;
+    font-size: 14px;
   }
   
   body {

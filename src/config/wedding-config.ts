@@ -13,8 +13,8 @@ interface GalleryConfig {
 export const weddingConfig = {
   // 메타 정보
   meta: {
-    title: "♡⁺｡⋆ 원석 🤍 상휴 결혼합니다 ⁺｡⋆♡",
-    description: "결혼식 초대장",
+    title: "♡⁺｡⋆ 원석 🤍 상휴 결혼해요 ⁺｡⋆♡",
+    description: "aT포레웨딩홀 | 2026년 4월 5일 12시반",
     ogImage: "/images/main.jpeg",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
@@ -46,10 +46,10 @@ export const weddingConfig = {
 
   // 장소 정보
   venue: {
-    name: "at포레웨딩홀",
-    address: "서울특별시 서초구 강남대로 27\nat포레웨딩홀",
-    tel: "02-511-0880",
-    naverMapId: "at포레웨딩홀",
+    name: "aT포레웨딩홀",
+    address: "서울 서초구 강남대로 27, aT센터 5층",
+    tel: "02-6300-2300",
+    naverMapId: "aT포레웨딩홀",
     coordinates: {
       latitude: 37.4969,
       longitude: 127.0278,
@@ -58,7 +58,7 @@ export const weddingConfig = {
     mapZoom: "17",
     mapNaverCoordinates: "14141300,4507203,15,0,0,0,dh",
     transportation: {
-      subway: "2호선 양재역 4번 출구 연결",
+      subway: "신분당선 양재시민의숲역(매헌) 하차\n- 지상 4번출구 이용 / 지하 내부 통로로 바로 연결 가능\n- 2호선 강남역과 3호선 양재역에서 신분당선 환승 가능",
       bus: "간선\n 140, 144, 406, 420, 470\n지선\n 3412, 4432",
     },
     parking: "건물 지하 주차장 이용 가능 (2시간 무료)",

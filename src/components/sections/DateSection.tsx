@@ -95,22 +95,34 @@ const DateSection = ({ bgColor = 'white' }: DateSectionProps) => {
     return () => clearInterval(timer);
   }, []);
 
+  // 요일 계산
+  const getDayOfWeek = () => {
+    const { year, month, day } = weddingConfig.date;
+    const date = new Date(year, month - 1, day);
+    const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+    return days[date.getDay()];
+  };
+
+  // 시간 포맷
+  const formatTime = () => {
+    const { hour, minute } = weddingConfig.date;
+    return `${hour}시 ${minute}분`;
+  };
+
   return (
     <DateSectionContainer $bgColor={bgColor}>
       <FadeInUp>
-        <SectionTitle>일정</SectionTitle>
+        <SectionTitle>SCHEDULE</SectionTitle>
       </FadeInUp>
       
       <FadeInUp delay={0.1}>
+        <WeddingDateInfo>
+          {weddingConfig.date.year}년 {weddingConfig.date.month}월 {weddingConfig.date.day}일 {getDayOfWeek()} | {formatTime()}
+        </WeddingDateInfo>
+      </FadeInUp>
+      
+      <FadeInUp delay={0.2}>
         <CalendarCard>
-          <CalendarHeader>
-            <span>{weddingConfig.date.year}년 {weddingConfig.date.month}월</span>
-            <div>
-              <button aria-label="이전 달"><i className="fas fa-chevron-left"></i></button>
-              <button aria-label="다음 달"><i className="fas fa-chevron-right"></i></button>
-            </div>
-          </CalendarHeader>
-          
           <CalendarGrid>
             <DayName $isWeekend="sun">일</DayName>
             <DayName>월</DayName>
@@ -126,7 +138,7 @@ const DateSection = ({ bgColor = 'white' }: DateSectionProps) => {
       </FadeInUp>
       
       {!isWeddingPassed && (
-        <FadeInUp delay={0.2}>
+        <FadeInUp delay={0.3}>
           <CountdownContainer>
             <CountdownTitle>결혼까지 남은 시간</CountdownTitle>
             
@@ -160,12 +172,6 @@ const DateSection = ({ bgColor = 'white' }: DateSectionProps) => {
           </CountdownContainer>
         </FadeInUp>
       )}
-      
-      <FadeInUp delay={0.3}>
-        <WeddingDate>
-          {weddingConfig.main.date}
-        </WeddingDate>
-      </FadeInUp>
     </DateSectionContainer>
   );
 };
@@ -180,8 +186,10 @@ const SectionTitle = styled.h2`
   position: relative;
   display: inline-block;
   margin-bottom: 2rem;
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', serif;
+  font-weight: normal;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
   
   &::after {
     content: '';
@@ -196,6 +204,12 @@ const SectionTitle = styled.h2`
   }
 `;
 
+const WeddingDateInfo = styled.p`
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+`;
+
 const CalendarCard = styled.div`
   background-color: white;
   border-radius: 8px;
@@ -205,25 +219,6 @@ const CalendarCard = styled.div`
   max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
-`;
-
-const CalendarHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  
-  button {
-    border: none;
-    background: none;
-    color: #999;
-    cursor: pointer;
-    padding: 0.5rem;
-    
-    &:hover {
-      color: #333;
-    }
-  }
 `;
 
 const CalendarGrid = styled.div`
@@ -357,11 +352,6 @@ const VerticalDivider = styled.div`
     margin: 0 0.25rem;
     width: 0.5px;
   }
-`;
-
-const WeddingDate = styled.p`
-  font-size: 1.25rem;
-  margin-top: 2rem;
 `;
 
 export default DateSection; 

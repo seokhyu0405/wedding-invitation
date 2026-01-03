@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+
 import { weddingConfig } from '../../config/wedding-config';
 
 const watermarkId = weddingConfig.meta._jwk_watermark_id || 'JWK-NonCommercial';
@@ -23,21 +23,13 @@ const MainSection = () => {
       />
       <Overlay />
       <MainContent>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        >
+        <div>
           <MainTitle>{weddingConfig.main.title}</MainTitle>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        >
+        </div>
+        <div>
           <DateText>{weddingConfig.main.date}</DateText>
           <VenueText>{weddingConfig.main.venue}</VenueText>
-        </motion.div>
+        </div>
         {}
         <HiddenWatermark aria-hidden="true">
           {watermarkId}
@@ -59,8 +51,8 @@ const MainSectionContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
-  padding-top: 3.5vh;
+  justify-content: flex-end;
+  padding-bottom: 6rem;
   text-align: center;
   color: white;
   overflow: hidden;
@@ -71,8 +63,8 @@ const MainSectionContainer = styled.section`
     max-width: calc(100vh * 9 / 16);
     width: auto;
     margin: 0 auto;
-    border-radius: 24px; /* 선택사항: 모서리 둥글게 */
-    box-shadow: 0 0 32px rgba(0,0,0,0.08); /* 선택사항: 그림자 */
+    border-radius: 24px;
+    box-shadow: 0 0 32px rgba(0,0,0,0.08);
   }
 `;
 
@@ -86,26 +78,22 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%);
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%);
   z-index: 1;
 `;
 
 const MainContent = styled.div`
   position: relative;
   z-index: 2;
-  margin-top: 0.5vh;
-  @media (max-width: 600px) {
-    margin-top: 0.5vh;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  padding-left: 1rem;
+  padding-right: 1rem;
 `;
 
 const MainTitle = styled.h1`
-  font-family: 'PlayfairDisplay', 'Times New Roman', serif;
-  font-style: italic;
-  font-size: 3rem;
-  min-height: 3rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', 'Times New Roman', serif;
+  font-style: normal;
+  font-size: 2.5rem;
+  min-height: 2.5rem;
   letter-spacing: 2px;
   margin-bottom: 1rem;
   font-weight: 400;
@@ -122,8 +110,8 @@ const MainTitle = styled.h1`
   }
   
   @media (max-width: 768px) {
-    font-size: 2.5rem;
-    min-height: 2.5rem;
+    font-size: 2.25rem;
+    min-height: 2.25rem;
   }
   
   /* 768px 이하에서 세로 길이가 짧을 때 */
@@ -137,8 +125,8 @@ const MainTitle = styled.h1`
   }
   
   @media (max-width: 450px) {
-    font-size: 2rem;
-    min-height: 2rem;
+    font-size: 1.75rem;
+    min-height: 1.75rem;
     letter-spacing: 1.5px;
   }
   
@@ -153,8 +141,8 @@ const MainTitle = styled.h1`
   }
   
   @media (max-width: 360px) {
-    font-size: 1.8rem;
-    min-height: 1.8rem;
+    font-size: 1.5rem;
+    min-height: 1.5rem;
     letter-spacing: 1px;
   }
   
@@ -169,8 +157,8 @@ const MainTitle = styled.h1`
   }
   
   @media (max-width: 295px) {
-    font-size: 1.6rem;
-    min-height: 1.6rem;
+    font-size: 1.35rem;
+    min-height: 1.35rem;
     letter-spacing: 0.5px;
   }
   
@@ -186,7 +174,7 @@ const MainTitle = styled.h1`
 `;
 
 const DateText = styled.p`
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   margin-bottom: 0.5rem;
   
   /* 기본 크기에서 세로 길이가 짧을 때 */
@@ -198,7 +186,7 @@ const DateText = styled.p`
   }
   
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     min-height: 0.3rem;
   }
   
@@ -211,7 +199,7 @@ const DateText = styled.p`
   }
   
   @media (max-width: 450px) {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     margin-bottom: 0.15rem;
   }
   
@@ -224,7 +212,7 @@ const DateText = styled.p`
   }
   
   @media (max-width: 360px) {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 0.1rem;
   }
   
@@ -237,7 +225,7 @@ const DateText = styled.p`
   }
   
   @media (max-width: 295px) {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-bottom: 0.05rem;
   }
   
@@ -251,18 +239,18 @@ const DateText = styled.p`
 `;
 
 const VenueText = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   @media (max-width: 768px) {
-    font-size: 0.95rem;
-  }
-  @media (max-width: 450px) {
-    font-size: 0.9rem;
-  }
-  @media (max-width: 360px) {
     font-size: 0.85rem;
   }
-  @media (max-width: 295px) {
+  @media (max-width: 450px) {
+    font-size: 0.8rem;
+  }
+  @media (max-width: 360px) {
     font-size: 0.75rem;
+  }
+  @media (max-width: 295px) {
+    font-size: 0.7rem;
   }
 `;
 

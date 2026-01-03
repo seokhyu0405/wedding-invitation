@@ -272,7 +272,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   if (isLoading) {
     return (
       <GallerySectionContainer $bgColor={bgColor}>
-        <SectionTitle>갤러리</SectionTitle>
+        <SectionTitle>GALLERY</SectionTitle>
         <LoadingContainer>이미지를 불러오는 중...</LoadingContainer>
       </GallerySectionContainer>
     );
@@ -281,7 +281,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   if (error || images.length === 0) {
     return (
       <GallerySectionContainer $bgColor={bgColor}>
-        <SectionTitle>갤러리</SectionTitle>
+        <SectionTitle>GALLERY</SectionTitle>
         <ErrorContainer>
           {error || '갤러리 이미지가 없습니다'}
         </ErrorContainer>
@@ -292,7 +292,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   return (
     <GallerySectionContainer $bgColor={bgColor}>
       <FadeInUp>
-        <SectionTitle>갤러리</SectionTitle>
+        <SectionTitle>GALLERY</SectionTitle>
       </FadeInUp>
       
       <FadeInUp delay={0.2}>
@@ -396,8 +396,10 @@ const SectionTitle = styled.h2`
   position: relative;
   display: inline-block;
   margin-bottom: 2rem;
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', serif;
+  font-weight: normal;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
   
   &::after {
     content: '';

@@ -47,11 +47,11 @@ export default function Home() {
       sections.push('rsvp'); // RsvpSection
     }
     
-    sections.push('account'); // AccountSection
-    
     if (galleryPosition === 'bottom') {
       sections.push('gallery-bottom'); // GallerySection (bottom)
     }
+    
+    sections.push('account'); // AccountSection
     
     // 각 섹션에 색상 인덱스 할당 (0부터 시작하여 번갈아가며)
     const colorMap: Record<string, 'white' | 'beige'> = {};
@@ -70,8 +70,8 @@ export default function Home() {
       <VenueSection bgColor={sectionColorMap['venue']} />
       {galleryPosition === 'middle' && <GallerySection bgColor={sectionColorMap['gallery-middle']} />}
       {showRsvp && <RsvpSection bgColor={sectionColorMap['rsvp']} />}
-      <AccountSection bgColor={sectionColorMap['account']} />
       {galleryPosition === 'bottom' && <GallerySection bgColor={sectionColorMap['gallery-bottom']} />}
+      <AccountSection bgColor={sectionColorMap['account']} />
       <Footer />
     </main>
   );

@@ -17,15 +17,8 @@ const Footer = () => {
     <FooterContainer>
       {/* WeddingInvitation-Footer-NonCommercial DO NOT CHANGE*/}
       <FooterContent>
-        <Copyright>© {currentYear} Jawon Koo</Copyright>
-        <Credits>Made with ❤️</Credits>
-        <GithubLink
-          href="https://github.com/jw-koo/wedding-invitation"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub 저장소 바로가기
-        </GithubLink>
+        <Copyright>© {currentYear} Wonseok and Sanghyu</Copyright>
+        <Credits>Made with love.</Credits>
         <HiddenAttribution data-jwk-id={watermarkId}>
           NonCommercial
         </HiddenAttribution>
@@ -69,17 +62,6 @@ const HiddenAttribution = styled.div`
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
-`;
-
-const GithubLink = styled.a`
-  font-size: 0.75rem;
-  color: #888;
-  text-decoration: underline;
-  margin-top: 0.25rem;
-  transition: color 0.2s;
-  &:hover {
-    color: #222;
-  }
 `;
 
 export default Footer; 

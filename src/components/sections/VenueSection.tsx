@@ -132,7 +132,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       <StaticMapContainer>
         <StaticMapImage 
           src={`https://map.kakao.com/link/map/${encodeURIComponent(weddingConfig.venue.name)},${weddingConfig.venue.coordinates.latitude},${weddingConfig.venue.coordinates.longitude}`} 
-          alt="호텔 위치" 
+          alt="베뉴 위치" 
         />
         <MapOverlay>
           <VenueName style={{ color: 'white', marginBottom: '0.5rem' }}>{weddingConfig.venue.name}</VenueName>
@@ -178,7 +178,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   return (
     <VenueSectionContainer $bgColor={bgColor}>
       <FadeInUp>
-        <SectionTitle>장소</SectionTitle>
+        <SectionTitle>LOCATION</SectionTitle>
       </FadeInUp>
       
       <FadeInUp delay={0.1}>
@@ -248,8 +248,10 @@ const SectionTitle = styled.h2`
   position: relative;
   display: inline-block;
   margin-bottom: 2rem;
-  font-weight: 500;
-  font-size: 1.5rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', serif;
+  font-weight: normal;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
   
   &::after {
     content: '';
@@ -349,6 +351,7 @@ const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' | 'tmap' }>`
   border-radius: 4px;
   padding: 0.5rem 0.5rem;
   font-size: 0.9rem;
+  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   position: relative;
   overflow: hidden;
