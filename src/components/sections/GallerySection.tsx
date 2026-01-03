@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { weddingConfig } from '../../config/wedding-config';
+import FadeInUp from '../animations/FadeInUp';
 
 interface GallerySectionProps {
   bgColor?: 'white' | 'beige';
@@ -290,9 +291,12 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   
   return (
     <GallerySectionContainer $bgColor={bgColor}>
-      <SectionTitle>갤러리</SectionTitle>
+      <FadeInUp>
+        <SectionTitle>갤러리</SectionTitle>
+      </FadeInUp>
       
-      {galleryLayout === 'grid' ? (
+      <FadeInUp delay={0.2}>
+        {galleryLayout === 'grid' ? (
         // 그리드 레이아웃
         <GalleryGridContainer>
           {images.map((image, index) => (
@@ -345,6 +349,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
           </GalleryButton>
         </GalleryContainer>
       )}
+      </FadeInUp>
 
       {expandedImage && (
         <ExpandedImageOverlay 

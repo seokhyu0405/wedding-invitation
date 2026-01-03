@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { weddingConfig } from '../../config/wedding-config';
 import { AccountInfo } from '../../types/wedding';
+import FadeInUp from '../animations/FadeInUp';
 
 type AccountPerson = 'groom' | 'bride' | 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
 type AccountSide = 'groom' | 'bride';
@@ -145,9 +146,12 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
 
   return (
     <AccountSectionContainer $bgColor={bgColor}>
-      <SectionTitle>마음 전하실 곳</SectionTitle>
+      <FadeInUp>
+        <SectionTitle>마음 전하실 곳</SectionTitle>
+      </FadeInUp>
       
-      <AccountCards>
+      <FadeInUp delay={0.1}>
+        <AccountCards>
         {/* 신랑측 계좌 카드 */}
         <AccountCard onClick={() => toggleSide('groom')}>
           <AccountCardHeader $isExpanded={expandedSide === 'groom'}>
@@ -184,16 +188,19 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
           )}
         </AccountCard>
       </AccountCards>
+      </FadeInUp>
       
       {/* 청첩장 공유하기 버튼 */}
-      <ShareContainer>
-        <ShareButton onClick={copyWebsiteUrl}>
-          {urlCopied ? '복사 완료!' : 'URL 복사하기'}
-        </ShareButton>
-        <ShareButton onClick={shareWebsite} $isShare={true}>
-          공유하기
-        </ShareButton>
-      </ShareContainer>
+      <FadeInUp delay={0.2}>
+        <ShareContainer>
+          <ShareButton onClick={copyWebsiteUrl}>
+            {urlCopied ? '복사 완료!' : 'URL 복사하기'}
+          </ShareButton>
+          <ShareButton onClick={shareWebsite} $isShare={true}>
+            공유하기
+          </ShareButton>
+        </ShareContainer>
+      </FadeInUp>
     </AccountSectionContainer>
   );
 };

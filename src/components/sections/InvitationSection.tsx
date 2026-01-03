@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { weddingConfig } from '../../config/wedding-config';
+import FadeInUp from '../animations/FadeInUp';
 
 interface InvitationSectionProps {
   bgColor?: 'white' | 'beige';
@@ -51,39 +52,43 @@ const InvitationSection = ({ bgColor = 'white' }: InvitationSectionProps) => {
   
   return (
     <InvitationSectionContainer $bgColor={bgColor}>
-      <InvitationMessage>
-        {invitation.message}
-      </InvitationMessage>
+      <FadeInUp>
+        <InvitationMessage>
+          {invitation.message}
+        </InvitationMessage>
+      </FadeInUp>
       
-      <CoupleContainer>
-        <CoupleInfo>
-          {hasGroomParents ? (
-            <ParentsNames>
-              {groomParentsText}
-              <ParentLabel>의 {invitation.groom.label || "아들"}</ParentLabel>
-            </ParentsNames>
-          ) : (
-            <ParentsNames>
-              <ParentLabel>신랑</ParentLabel>
-            </ParentsNames>
-          )}
-          <CoupleName>{invitation.groom.name}</CoupleName>
-        </CoupleInfo>
-        
-        <CoupleInfo>
-          {hasBrideParents ? (
-            <ParentsNames>
-              {brideParentsText}
-              <ParentLabel>의 {invitation.bride.label || "딸"}</ParentLabel>
-            </ParentsNames>
-          ) : (
-            <ParentsNames>
-              <ParentLabel>신부</ParentLabel>
-            </ParentsNames>
-          )}
-          <CoupleName>{invitation.bride.name}</CoupleName>
-        </CoupleInfo>
-      </CoupleContainer>
+      <FadeInUp delay={0.2}>
+        <CoupleContainer>
+          <CoupleInfo>
+            {hasGroomParents ? (
+              <ParentsNames>
+                {groomParentsText}
+                <ParentLabel>의 {invitation.groom.label || "아들"}</ParentLabel>
+              </ParentsNames>
+            ) : (
+              <ParentsNames>
+                <ParentLabel>신랑</ParentLabel>
+              </ParentsNames>
+            )}
+            <CoupleName>{invitation.groom.name}</CoupleName>
+          </CoupleInfo>
+          
+          <CoupleInfo>
+            {hasBrideParents ? (
+              <ParentsNames>
+                {brideParentsText}
+                <ParentLabel>의 {invitation.bride.label || "딸"}</ParentLabel>
+              </ParentsNames>
+            ) : (
+              <ParentsNames>
+                <ParentLabel>신부</ParentLabel>
+              </ParentsNames>
+            )}
+            <CoupleName>{invitation.bride.name}</CoupleName>
+          </CoupleInfo>
+        </CoupleContainer>
+      </FadeInUp>
     </InvitationSectionContainer>
   );
 };

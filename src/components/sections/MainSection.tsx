@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { weddingConfig } from '../../config/wedding-config';
 
 const watermarkId = weddingConfig.meta._jwk_watermark_id || 'JWK-NonCommercial';
@@ -22,9 +23,21 @@ const MainSection = () => {
       />
       <Overlay />
       <MainContent>
-        <MainTitle>{weddingConfig.main.title}</MainTitle>
-        <DateText>{weddingConfig.main.date}</DateText>
-        <VenueText>{weddingConfig.main.venue}</VenueText>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <MainTitle>{weddingConfig.main.title}</MainTitle>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <DateText>{weddingConfig.main.date}</DateText>
+          <VenueText>{weddingConfig.main.venue}</VenueText>
+        </motion.div>
         {}
         <HiddenWatermark aria-hidden="true">
           {watermarkId}

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { weddingConfig } from '../../config/wedding-config';
+import FadeInUp from '../animations/FadeInUp';
 
 interface DateSectionProps {
   bgColor?: 'white' | 'beige';
@@ -96,67 +97,75 @@ const DateSection = ({ bgColor = 'white' }: DateSectionProps) => {
 
   return (
     <DateSectionContainer $bgColor={bgColor}>
-      <SectionTitle>일정</SectionTitle>
+      <FadeInUp>
+        <SectionTitle>일정</SectionTitle>
+      </FadeInUp>
       
-      <CalendarCard>
-        <CalendarHeader>
-          <span>{weddingConfig.date.year}년 {weddingConfig.date.month}월</span>
-          <div>
-            <button aria-label="이전 달"><i className="fas fa-chevron-left"></i></button>
-            <button aria-label="다음 달"><i className="fas fa-chevron-right"></i></button>
-          </div>
-        </CalendarHeader>
-        
-        <CalendarGrid>
-          <DayName $isWeekend="sun">일</DayName>
-          <DayName>월</DayName>
-          <DayName>화</DayName>
-          <DayName>수</DayName>
-          <DayName>목</DayName>
-          <DayName>금</DayName>
-          <DayName $isWeekend="sat">토</DayName>
+      <FadeInUp delay={0.1}>
+        <CalendarCard>
+          <CalendarHeader>
+            <span>{weddingConfig.date.year}년 {weddingConfig.date.month}월</span>
+            <div>
+              <button aria-label="이전 달"><i className="fas fa-chevron-left"></i></button>
+              <button aria-label="다음 달"><i className="fas fa-chevron-right"></i></button>
+            </div>
+          </CalendarHeader>
           
-          {generateCalendar()}
-        </CalendarGrid>
-      </CalendarCard>
+          <CalendarGrid>
+            <DayName $isWeekend="sun">일</DayName>
+            <DayName>월</DayName>
+            <DayName>화</DayName>
+            <DayName>수</DayName>
+            <DayName>목</DayName>
+            <DayName>금</DayName>
+            <DayName $isWeekend="sat">토</DayName>
+            
+            {generateCalendar()}
+          </CalendarGrid>
+        </CalendarCard>
+      </FadeInUp>
       
       {!isWeddingPassed && (
-        <CountdownContainer>
-          <CountdownTitle>결혼까지 남은 시간</CountdownTitle>
-          
-          <CountdownWrapper>
-            <CountdownItem>
-              <CountdownValue>{timeLeft.days}</CountdownValue>
-              <CountdownLabel>일</CountdownLabel>
-            </CountdownItem>
-            <VerticalDivider />
-            <CountdownItem>
-              <CountdownValue>
-                {timeLeft.hours < 10 ? `0${timeLeft.hours}` : timeLeft.hours}
-              </CountdownValue>
-              <CountdownLabel>시간</CountdownLabel>
-            </CountdownItem>
-            <VerticalDivider />
-            <CountdownItem>
-              <CountdownValue>
-                {timeLeft.minutes < 10 ? `0${timeLeft.minutes}` : timeLeft.minutes}
-              </CountdownValue>
-              <CountdownLabel>분</CountdownLabel>
-            </CountdownItem>
-            <VerticalDivider />
-            <CountdownItem>
-              <CountdownValue>
-                {timeLeft.seconds < 10 ? `0${timeLeft.seconds}` : timeLeft.seconds}
-              </CountdownValue>
-              <CountdownLabel>초</CountdownLabel>
-            </CountdownItem>
-          </CountdownWrapper>
-        </CountdownContainer>
+        <FadeInUp delay={0.2}>
+          <CountdownContainer>
+            <CountdownTitle>결혼까지 남은 시간</CountdownTitle>
+            
+            <CountdownWrapper>
+              <CountdownItem>
+                <CountdownValue>{timeLeft.days}</CountdownValue>
+                <CountdownLabel>일</CountdownLabel>
+              </CountdownItem>
+              <VerticalDivider />
+              <CountdownItem>
+                <CountdownValue>
+                  {timeLeft.hours < 10 ? `0${timeLeft.hours}` : timeLeft.hours}
+                </CountdownValue>
+                <CountdownLabel>시간</CountdownLabel>
+              </CountdownItem>
+              <VerticalDivider />
+              <CountdownItem>
+                <CountdownValue>
+                  {timeLeft.minutes < 10 ? `0${timeLeft.minutes}` : timeLeft.minutes}
+                </CountdownValue>
+                <CountdownLabel>분</CountdownLabel>
+              </CountdownItem>
+              <VerticalDivider />
+              <CountdownItem>
+                <CountdownValue>
+                  {timeLeft.seconds < 10 ? `0${timeLeft.seconds}` : timeLeft.seconds}
+                </CountdownValue>
+                <CountdownLabel>초</CountdownLabel>
+              </CountdownItem>
+            </CountdownWrapper>
+          </CountdownContainer>
+        </FadeInUp>
       )}
       
-      <WeddingDate>
-        {weddingConfig.main.date}
-      </WeddingDate>
+      <FadeInUp delay={0.3}>
+        <WeddingDate>
+          {weddingConfig.main.date}
+        </WeddingDate>
+      </FadeInUp>
     </DateSectionContainer>
   );
 };

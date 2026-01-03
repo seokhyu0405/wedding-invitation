@@ -13,9 +13,9 @@ interface GalleryConfig {
 export const weddingConfig = {
   // 메타 정보
   meta: {
-    title: "신랑 ❤️ 신부의 결혼식에 초대합니다",
+    title: "♡⁺｡⋆ 원석 🤍 상휴 결혼합니다 ⁺｡⋆♡",
     description: "결혼식 초대장",
-    ogImage: "/images/ha0h-1fsi-bqt3.jpg",
+    ogImage: "/images/main.jpeg",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
   },
@@ -23,9 +23,9 @@ export const weddingConfig = {
   // 메인 화면
   main: {
     title: "Wedding Invitation",
-    image: "/images/ha0h-1fsi-bqt3.jpg",
-    date: "2026년 5월 16일 토요일 12시 30분",
-    venue: "웨딩홀 이름"
+    image: "/images/main.jpeg",
+    date: "2026년 4월 5일 일요일 12시 30분",
+    venue: "at포레웨딩홀"
   },
 
   // 소개글
@@ -37,49 +37,31 @@ export const weddingConfig = {
   // 결혼식 일정
   date: {
     year: 2026,
-    month: 5,
-    day: 16,
+    month: 4,
+    day: 5,
     hour: 12,
     minute: 30,
-    displayDate: "2026.05.16 SAT PM 12:30",
+    displayDate: "2026.04.4 SUN PM 12:30",
   },
 
   // 장소 정보
   venue: {
-    name: "웨딩홀 이름",
-    address: "서울특별시 강남구 테헤란로 123\n웨딩홀 이름",
-    tel: "02-1234-5678",
-    naverMapId: "웨딩홀 이름", // 네이버 지도 검색용 장소명
+    name: "at포레웨딩홀",
+    address: "서울특별시 서초구 강남대로 27\nat포레웨딩홀",
+    tel: "02-511-0880",
+    naverMapId: "at포레웨딩홀",
     coordinates: {
-      latitude: 37.5665,
-      longitude: 126.9780,
+      latitude: 37.4969,
+      longitude: 127.0278,
     },
-    placeId: "123456789", // 네이버 지도 장소 ID
-    mapZoom: "17", // 지도 줌 레벨
-    mapNaverCoordinates: "14141300,4507203,15,0,0,0,dh", // 네이버 지도 길찾기 URL용 좌표 파라미터 (구 형식)
+    placeId: "1544030406",
+    mapZoom: "17",
+    mapNaverCoordinates: "14141300,4507203,15,0,0,0,dh",
     transportation: {
-      subway: "지하철역 1번 출구에서 도보 5분",
-      bus: "간선\n 101, 102, 103\n지선\n 1234, 5678",
+      subway: "2호선 양재역 4번 출구 연결",
+      bus: "간선\n 140, 144, 406, 420, 470\n지선\n 3412, 4432",
     },
     parking: "건물 지하 주차장 이용 가능 (2시간 무료)",
-    // 신랑측 배차 안내
-    groomShuttle: {
-      location: "신랑측 배차 출발지",
-      departureTime: "오전 10시 30분 출발",
-      contact: {
-        name: "담당자명",
-        tel: "010-1234-5678"
-      }
-    },
-    // 신부측 배차 안내
-    brideShuttle: {
-      location: "신부측 배차 출발지",
-      departureTime: "오전 11시 출발",
-      contact: {
-        name: "담당자명",
-        tel: "010-9876-5432"
-      }
-    }
   },
 
   // 갤러리
@@ -103,16 +85,16 @@ export const weddingConfig = {
   invitation: {
     message: "한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.",
     groom: {
-      name: "신랑이름",
+      name: "양원석",
       label: "아들",
-      father: "신랑아버지",
-      mother: "신랑어머니",
+      father: "양재준",
+      mother: "김선용",
     },
     bride: {
-      name: "신부이름",
+      name: "윤상휴",
       label: "딸",
-      father: "신부아버지",
-      mother: "신부어머니",
+      father: "윤응률",
+      mother: "신영아",
     },
   },
 
@@ -121,32 +103,32 @@ export const weddingConfig = {
     groom: {
       bank: "은행명",
       number: "123-456-789012",
-      holder: "신랑이름",
+      holder: "양원석",
     },
     bride: {
       bank: "은행명",
       number: "987-654-321098",
-      holder: "신부이름",
+      holder: "윤상휴",
     },
     groomFather: {
       bank: "은행명",
       number: "111-222-333444",
-      holder: "신랑아버지",
+      holder: "양재준",
     },
     groomMother: {
       bank: "은행명",
       number: "555-666-777888",
-      holder: "신랑어머니",
+      holder: "김선용",
     },
     brideFather: {
       bank: "은행명",
       number: "999-000-111222",
-      holder: "신부아버지",
+      holder: "윤응률",
     },
     brideMother: {
       bank: "은행명",
       number: "333-444-555666",
-      holder: "신부어머니",
+      holder: "신영아",
     }
   },
 

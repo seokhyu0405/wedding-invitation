@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { weddingConfig } from '../../config/wedding-config';
+import FadeInUp from '../animations/FadeInUp';
 
 interface RsvpSectionProps {
   bgColor?: 'white' | 'beige';
@@ -133,13 +134,17 @@ const RsvpSection = ({ bgColor = 'white' }: RsvpSectionProps) => {
 
   return (
     <RsvpSectionContainer $bgColor={bgColor}>
-      <SectionTitle>참석 여부 회신</SectionTitle>
+      <FadeInUp>
+        <SectionTitle>참석 여부 회신</SectionTitle>
+      </FadeInUp>
       
-      <RsvpDescription>
-        소중한 날에 함께해 주실 수 있는지 알려주세요.<br />
-        정성을 다해 준비할 수 있도록<br />
-        참석 여부를 알려주시면 진심으로 감사하겠습니다.
-      </RsvpDescription>
+      <FadeInUp delay={0.1}>
+        <RsvpDescription>
+          소중한 날에 함께해 주실 수 있는지 알려주세요.<br />
+          정성을 다해 준비할 수 있도록<br />
+          참석 여부를 알려주시면 진심으로 감사하겠습니다.
+        </RsvpDescription>
+      </FadeInUp>
       
       {submitStatus && (
         <StatusMessage $success={submitStatus.success.toString()}>
@@ -147,7 +152,8 @@ const RsvpSection = ({ bgColor = 'white' }: RsvpSectionProps) => {
         </StatusMessage>
       )}
       
-      <RsvpForm onSubmit={handleSubmit}>
+      <FadeInUp delay={0.2}>
+        <RsvpForm onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="name">이름</Label>
           <Input
@@ -249,6 +255,7 @@ const RsvpSection = ({ bgColor = 'white' }: RsvpSectionProps) => {
           {isSubmitting ? '전송 중...' : '회신하기'}
         </SubmitButton>
       </RsvpForm>
+      </FadeInUp>
     </RsvpSectionContainer>
   );
 };

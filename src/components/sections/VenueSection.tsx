@@ -2,12 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
 import { weddingConfig } from '../../config/wedding-config';
+import FadeInUp from '../animations/FadeInUp';
 
 declare global {
   interface Window {
-    naver: any;
+    kakao: any;
   }
 }
 
@@ -25,10 +25,11 @@ interface VenueSectionProps {
   bgColor?: 'white' | 'beige';
 }
 
+const KAKAO_APP_KEY = '4cfbf5c0b106a3625bc18ed9c71d1f3a';
+
 const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<string>('');
   const [mapError, setMapError] = useState(false);
   // 배차 안내 펼침/접기 상태 관리
   const [expandedShuttle, setExpandedShuttle] = useState<'groom' | 'bride' | null>(null);
@@ -42,45 +43,33 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
     }
   };
   
-  // 디버깅 정보 출력
+  // 카카오맵 API 스크립트 동적 로드
   useEffect(() => {
-    const clientId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID || '';
-    const debug = `클라이언트 ID: ${clientId.substring(0, 3)}...`;
-    setDebugInfo(debug);
-  }, []);
-  
-  // 네이버 지도 API 스크립트 동적 로드
-  useEffect(() => {
-    const loadNaverMapScript = () => {
-      if (window.naver && window.naver.maps) {
-        setMapLoaded(true);
+    const loadKakaoMapScript = () => {
+      if (window.kakao && window.kakao.maps) {
+        window.kakao.maps.load(() => {
+          setMapLoaded(true);
+        });
         return;
       }
       
       const script = document.createElement('script');
       script.async = true;
-      // 네이버 지도 API는 geocoder를 별도로 로드해야 합니다
-      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`;
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false`;
       script.onload = () => {
-        console.log('네이버 지도 스크립트 로드 완료');
-        setMapLoaded(true);
+        window.kakao.maps.load(() => {
+          console.log('카카오맵 스크립트 로드 완료');
+          setMapLoaded(true);
+        });
       };
       script.onerror = (error) => {
-        console.error('네이버 지도 스크립트 로드 실패:', error);
+        console.error('카카오맵 스크립트 로드 실패:', error);
         setMapError(true);
       };
       document.head.appendChild(script);
-      
-      // 인증 오류 확인을 위한 타임아웃 설정
-      setTimeout(() => {
-        if (document.querySelector('div[style*="position: absolute; z-index: 100000000"]')) {
-          console.log('네이버 지도 인증 오류 발견');
-          setMapError(true);
-        }
-      }, 3000);
     };
 
-    loadNaverMapScript();
+    loadKakaoMapScript();
     
     // 컴포넌트 언마운트 시 맵 제거
     return () => {
@@ -90,64 +79,46 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
     };
   }, []);
   
-  // 네이버 지도 초기화
+  // 카카오맵 초기화
   useEffect(() => {
     if (!mapLoaded || !mapRef.current || mapError) return;
     
     const initMap = () => {
       try {
-        console.log('네이버 지도 초기화 시작');
+        console.log('카카오맵 초기화 시작');
         
-        // 기본 좌표 (서울 시청) - 주소 검색 전 기본값
-        const defaultLocation = new window.naver.maps.LatLng(37.5666805, 126.9784147);
+        const lat = weddingConfig.venue.coordinates.latitude;
+        const lng = weddingConfig.venue.coordinates.longitude;
         
         // 지도 생성
-        const map = new window.naver.maps.Map(mapRef.current, {
-          center: defaultLocation,
-          zoom: parseInt(weddingConfig.venue.mapZoom, 10) || 15,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: window.naver.maps.Position.RIGHT_TOP
-          }
-        });
+        const mapOption = {
+          center: new window.kakao.maps.LatLng(lat, lng),
+          level: 3 // 지도 확대 레벨
+        };
         
-        console.log('네이버 지도 객체 생성 성공');
-        
-        // wedding-config.ts에서 좌표 가져오기
-        const venueLocation = new window.naver.maps.LatLng(
-          weddingConfig.venue.coordinates.latitude, 
-          weddingConfig.venue.coordinates.longitude
-        );
+        const map = new window.kakao.maps.Map(mapRef.current, mapOption);
         
         // 마커 생성
-        const marker = new window.naver.maps.Marker({
-          position: venueLocation,
-          map: map
+        const markerPosition = new window.kakao.maps.LatLng(lat, lng);
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition
         });
+        marker.setMap(map);
         
         // 인포윈도우 생성
-        const infoWindow = new window.naver.maps.InfoWindow({
+        const infowindow = new window.kakao.maps.InfoWindow({
           content: `<div style="padding:10px;min-width:150px;text-align:center;font-size:14px;"><strong>${weddingConfig.venue.name}</strong></div>`
         });
+        infowindow.open(map, marker);
         
-        // 마커 클릭 시 인포윈도우 표시
-        infoWindow.open(map, marker);
+        // 줌 컨트롤 추가
+        const zoomControl = new window.kakao.maps.ZoomControl();
+        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
         
-        // 지도 중심 이동
-        map.setCenter(venueLocation);
-        console.log('네이버 지도 초기화 완료');
-        
-        // 인증 오류를 감지하기 위한 추가 확인
-        setTimeout(() => {
-          const errorDiv = document.querySelector('div[style*="position: absolute; z-index: 100000000"]');
-          if (errorDiv) {
-            console.log('인증 오류 감지됨');
-            setMapError(true);
-          }
-        }, 1000);
+        console.log('카카오맵 초기화 완료');
         
       } catch (error) {
-        console.error('네이버 지도 초기화 오류:', error);
+        console.error('카카오맵 초기화 오류:', error);
         setMapError(true);
       }
     };
@@ -159,7 +130,10 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   const renderStaticMap = () => {
     return (
       <StaticMapContainer>
-        <StaticMapImage src="https://navermaps.github.io/maps.js.ncp/docs/img/example-static-map.png" alt="호텔 위치" />
+        <StaticMapImage 
+          src={`https://map.kakao.com/link/map/${encodeURIComponent(weddingConfig.venue.name)},${weddingConfig.venue.coordinates.latitude},${weddingConfig.venue.coordinates.longitude}`} 
+          alt="호텔 위치" 
+        />
         <MapOverlay>
           <VenueName style={{ color: 'white', marginBottom: '0.5rem' }}>{weddingConfig.venue.name}</VenueName>
           <VenueAddress style={{ color: 'white', fontSize: '0.9rem' }}>{weddingConfig.venue.address}</VenueAddress>
@@ -171,7 +145,6 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   // 길찾기 링크 생성 함수들
   const navigateToNaver = () => {
     if (typeof window !== 'undefined') {
-      // 네이버 지도 앱/웹으로 연결하는 URL (새로운 형식)
       const naverMapsUrl = `https://map.naver.com/p/directions/-/-/-/walk/place/${weddingConfig.venue.placeId}?c=${weddingConfig.venue.mapZoom},0,0,0,dh`;
       window.open(naverMapsUrl, '_blank');
     }
@@ -179,11 +152,9 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   
   const navigateToKakao = () => {
     if (typeof window !== 'undefined') {
-      // 카카오맵 앱/웹으로 연결
       const lat = weddingConfig.venue.coordinates.latitude;
       const lng = weddingConfig.venue.coordinates.longitude;
       const name = encodeURIComponent(weddingConfig.venue.name);
-      const address = encodeURIComponent(weddingConfig.venue.address);
       const kakaoMapsUrl = `https://map.kakao.com/link/to/${name},${lat},${lng}`;
       window.open(kakaoMapsUrl, '_blank');
     }
@@ -191,18 +162,14 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   
   const navigateToTmap = () => {
     if (typeof window !== 'undefined') {
-      // TMAP 앱으로 연결 (앱 딥링크만 사용)
       const lat = weddingConfig.venue.coordinates.latitude;
       const lng = weddingConfig.venue.coordinates.longitude;
       const name = encodeURIComponent(weddingConfig.venue.name);
       
-      // 모바일 디바이스에서는 앱 실행 시도
       window.location.href = `tmap://route?goalname=${name}&goaly=${lat}&goalx=${lng}`;
       
-      // 앱이 설치되어 있지 않을 경우를 대비해 약간의 지연 후 TMAP 웹사이트로 이동
       setTimeout(() => {
-        // TMAP이 설치되어 있지 않으면 TMAP 웹사이트 메인으로 이동
-        if(document.hidden) return; // 앱이 실행되었으면 아무것도 하지 않음
+        if(document.hidden) return;
         window.location.href = 'https://tmap.co.kr';
       }, 1000);
     }
@@ -210,118 +177,63 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   
   return (
     <VenueSectionContainer $bgColor={bgColor}>
-      <SectionTitle>장소</SectionTitle>
+      <FadeInUp>
+        <SectionTitle>장소</SectionTitle>
+      </FadeInUp>
       
-      <VenueInfo>
-        <VenueName>{weddingConfig.venue.name}</VenueName>
-        <VenueAddress>{formatTextWithLineBreaks(weddingConfig.venue.address)}</VenueAddress>
-        <VenueTel href={`tel:${weddingConfig.venue.tel}`}>{weddingConfig.venue.tel}</VenueTel>
-      </VenueInfo>
+      <FadeInUp delay={0.1}>
+        <VenueInfo>
+          <VenueName>{weddingConfig.venue.name}</VenueName>
+          <VenueAddress>{formatTextWithLineBreaks(weddingConfig.venue.address)}</VenueAddress>
+          <VenueTel href={`tel:${weddingConfig.venue.tel}`}>{weddingConfig.venue.tel}</VenueTel>
+        </VenueInfo>
+      </FadeInUp>
       
-      {mapError ? (
-        renderStaticMap()
-      ) : (
-        <MapContainer ref={mapRef}>
-          {!mapLoaded && <MapLoading>지도를 불러오는 중...{debugInfo}</MapLoading>}
-        </MapContainer>
-      )}
+      <FadeInUp delay={0.2}>
+        {mapError ? (
+          renderStaticMap()
+        ) : (
+          <MapContainer ref={mapRef}>
+            {!mapLoaded && <MapLoading>지도를 불러오는 중...</MapLoading>}
+          </MapContainer>
+        )}
+      </FadeInUp>
       
-      <NavigateButtonsContainer>
-        <NavigateButton onClick={navigateToNaver} $mapType="naver">
-          네이버 지도
-        </NavigateButton>
-        <NavigateButton onClick={navigateToKakao} $mapType="kakao">
-          카카오맵
-        </NavigateButton>
-        <NavigateButton onClick={navigateToTmap} $mapType="tmap">
-          TMAP
-        </NavigateButton>
-      </NavigateButtonsContainer>
+      <FadeInUp delay={0.3}>
+        <NavigateButtonsContainer>
+          <NavigateButton onClick={navigateToNaver} $mapType="naver">
+            네이버 지도
+          </NavigateButton>
+          <NavigateButton onClick={navigateToKakao} $mapType="kakao">
+            카카오맵
+          </NavigateButton>
+          <NavigateButton onClick={navigateToTmap} $mapType="tmap">
+            TMAP
+          </NavigateButton>
+        </NavigateButtonsContainer>
+      </FadeInUp>
       
-      <TransportCard>
-        <CardTitle>대중교통 안내</CardTitle>
-        <TransportItem>
-          <TransportLabel>지하철</TransportLabel>
-          <TransportText>{weddingConfig.venue.transportation.subway}</TransportText>
-        </TransportItem>
-        <TransportItem>
-          <TransportLabel>버스</TransportLabel>
-          <TransportText>{weddingConfig.venue.transportation.bus}</TransportText>
-        </TransportItem>
-      </TransportCard>
+      <FadeInUp delay={0.4}>
+        <TransportCard>
+          <CardTitle>대중교통 안내</CardTitle>
+          <TransportItem>
+            <TransportLabel>지하철</TransportLabel>
+            <TransportText>{weddingConfig.venue.transportation.subway}</TransportText>
+          </TransportItem>
+          <TransportItem>
+            <TransportLabel>버스</TransportLabel>
+            <TransportText>{weddingConfig.venue.transportation.bus}</TransportText>
+          </TransportItem>
+        </TransportCard>
+      </FadeInUp>
       
-      <ParkingCard>
-        <CardTitle>주차 안내</CardTitle>
-        <TransportText>{weddingConfig.venue.parking}</TransportText>
-      </ParkingCard>
+      <FadeInUp delay={0.5}>
+        <ParkingCard>
+          <CardTitle>주차 안내</CardTitle>
+          <TransportText>{weddingConfig.venue.parking}</TransportText>
+        </ParkingCard>
+      </FadeInUp>
       
-      {/* 신랑측 배차 안내 - 정보가 있을 때만 표시 */}
-      {weddingConfig.venue.groomShuttle && (
-        <ShuttleCard>
-          <ShuttleCardHeader onClick={() => toggleShuttle('groom')} $isExpanded={expandedShuttle === 'groom'}>
-            <CardTitle>신랑측 배차 안내</CardTitle>
-            <ExpandIcon $isExpanded={expandedShuttle === 'groom'}>
-              {expandedShuttle === 'groom' ? '−' : '+'}
-            </ExpandIcon>
-          </ShuttleCardHeader>
-          
-          {expandedShuttle === 'groom' && (
-            <ShuttleContent>
-              <ShuttleInfo>
-                <ShuttleLabel>탑승 장소</ShuttleLabel>
-                <ShuttleText>{formatTextWithLineBreaks(weddingConfig.venue.groomShuttle.location)}</ShuttleText>
-              </ShuttleInfo>
-              <ShuttleInfo>
-                <ShuttleLabel>출발 시간</ShuttleLabel>
-                <ShuttleText>{weddingConfig.venue.groomShuttle.departureTime}</ShuttleText>
-              </ShuttleInfo>
-              <ShuttleInfo>
-                <ShuttleLabel>인솔자</ShuttleLabel>
-                <ShuttleText>
-                  {weddingConfig.venue.groomShuttle.contact.name} ({weddingConfig.venue.groomShuttle.contact.tel})
-                  <ShuttleCallButton href={`tel:${weddingConfig.venue.groomShuttle.contact.tel}`}>
-                    전화
-                  </ShuttleCallButton>
-                </ShuttleText>
-              </ShuttleInfo>
-            </ShuttleContent>
-          )}
-        </ShuttleCard>
-      )}
-      
-      {/* 신부측 배차 안내 - 정보가 있을 때만 표시 */}
-      {weddingConfig.venue.brideShuttle && (
-        <ShuttleCard>
-          <ShuttleCardHeader onClick={() => toggleShuttle('bride')} $isExpanded={expandedShuttle === 'bride'}>
-            <CardTitle>신부측 배차 안내</CardTitle>
-            <ExpandIcon $isExpanded={expandedShuttle === 'bride'}>
-              {expandedShuttle === 'bride' ? '−' : '+'}
-            </ExpandIcon>
-          </ShuttleCardHeader>
-          
-          {expandedShuttle === 'bride' && (
-            <ShuttleContent>
-              <ShuttleInfo>
-                <ShuttleLabel>탑승 장소</ShuttleLabel>
-                <ShuttleText>{formatTextWithLineBreaks(weddingConfig.venue.brideShuttle.location)}</ShuttleText>
-              </ShuttleInfo>
-              <ShuttleInfo>
-                <ShuttleLabel>출발 시간</ShuttleLabel>
-                <ShuttleText>{weddingConfig.venue.brideShuttle.departureTime}</ShuttleText>
-              </ShuttleInfo>
-              <ShuttleInfo>
-                <ShuttleLabel>인솔자</ShuttleLabel>
-                <ShuttleText>
-                  {weddingConfig.venue.brideShuttle.contact.name} ({weddingConfig.venue.brideShuttle.contact.tel})
-                  <ShuttleCallButton href={`tel:${weddingConfig.venue.brideShuttle.contact.tel}`}>
-                    전화
-                  </ShuttleCallButton>
-                </ShuttleText>
-              </ShuttleInfo>
-            </ShuttleContent>
-          )}
-        </ShuttleCard>
-      )}
     </VenueSectionContainer>
   );
 };
@@ -600,11 +512,10 @@ const ExpandIcon = styled.span<{ $isExpanded: boolean }>`
   line-height: 1;
   color: var(--secondary-color);
   transition: transform 0.3s ease;
-  transform: ${props => props.$isExpanded ? 'rotate(0deg)' : 'rotate(0deg)'};
 `;
 
 const ShuttleContent = styled.div`
   padding: 1rem 1.5rem 1.5rem;
 `;
 
-export default VenueSection; 
+export default VenueSection;
