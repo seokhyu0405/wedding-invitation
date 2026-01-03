@@ -11,16 +11,17 @@ const watermarkId = weddingConfig.meta._jwk_watermark_id || 'JWK-NonCommercial';
 const MainSection = () => {
   return (
     <MainSectionContainer className={`wedding-container jwk-${watermarkId.slice(0, 8)}-main`}>
-      {}
-      <BackgroundImage 
-        src={weddingConfig.main.image}
-        alt="웨딩 배경 이미지"
-        fill
-        priority
-        sizes="100vw"
-        quality={90}
-        style={{ objectFit: 'cover', objectPosition: 'center 10%' }}
-      />
+      <BackgroundImageWrapper>
+        <BackgroundImage 
+          src={weddingConfig.main.image}
+          alt="웨딩 배경 이미지"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+          style={{ objectFit: 'cover', objectPosition: 'center 10%' }}
+        />
+      </BackgroundImageWrapper>
       <Overlay />
       <MainContent>
         <div>
@@ -48,6 +49,8 @@ const MainSectionContainer = styled.section`
   height: 100svh;
   min-height: 100svh;
   width: 100vw;
+  max-width: 100vw;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,9 +58,8 @@ const MainSectionContainer = styled.section`
   padding-bottom: 2.5rem;
   text-align: center;
   color: white;
-  overflow: hidden;
   background: #f8f6f2;
-
+  
   @media (min-width: 768px) and (min-height: 780px) {
     aspect-ratio: 9 / 16;
     max-width: calc(100svh * 9 / 16);
@@ -67,16 +69,26 @@ const MainSectionContainer = styled.section`
   }
 `;
 
-const BackgroundImage = styled(Image)`
-  z-index: 0;
+const BackgroundImageWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  
+  img {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+`;
+
+const BackgroundImage = styled(Image)`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 `;
 
 const Overlay = styled.div`
