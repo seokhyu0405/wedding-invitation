@@ -23,9 +23,6 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
     brideMother: false,
   });
   
-  // URL 복사 상태 관리
-  const [urlCopied, setUrlCopied] = useState(false);
-
   // 계좌 그룹 열림/닫힘 상태 관리
   const [expandedSide, setExpandedSide] = useState<AccountSide | null>(null);
 
@@ -51,43 +48,6 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
     );
   };
   
-  // URL 복사 함수
-  const copyWebsiteUrl = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(
-      () => {
-        setUrlCopied(true);
-        setTimeout(() => {
-          setUrlCopied(false);
-        }, 2000);
-      },
-      (err) => {
-        console.error('URL 복사 실패:', err);
-      }
-    );
-  };
-  
-  // 웹 공유 API를 사용한 공유 함수
-  const shareWebsite = async () => {
-    const shareData = {
-      title: weddingConfig.meta.title,
-      text: `${weddingConfig.invitation.groom.name} ♥ ${weddingConfig.invitation.bride.name}의 결혼식에 초대합니다`,
-      url: window.location.href,
-    };
-    
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        // 공유 API를 지원하지 않는 경우 URL 복사로 대체
-        copyWebsiteUrl();
-        alert('이 브라우저는 공유 기능을 지원하지 않습니다. URL이 복사되었습니다.');
-      }
-    } catch (error) {
-      console.error('공유 실패:', error);
-    }
-  };
-
   // 각 인물에 해당하는 이름 가져오기
   const getPersonName = (person: AccountPerson): string => {
     switch(person) {
@@ -189,18 +149,6 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
         </AccountCard>
       </AccountCards>
       </FadeInUp>
-      
-      {/* 청첩장 공유하기 버튼 */}
-      <FadeInUp delay={0.2}>
-        <ShareContainer>
-          <ShareButton onClick={copyWebsiteUrl}>
-            {urlCopied ? '복사 완료!' : 'URL 복사하기'}
-          </ShareButton>
-          <ShareButton onClick={shareWebsite} $isShare={true}>
-            공유하기
-          </ShareButton>
-        </ShareContainer>
-      </FadeInUp>
     </AccountSectionContainer>
   );
 };
@@ -242,15 +190,30 @@ const AccountCards = styled.div`
 
 const AccountCard = styled.div`
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
+  color: var(--text-dark);
+  border: 1px solid #eee;
+  padding: 0;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  font-family: 'bada', 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
   
   &:hover {
-    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    border-color: var(--secondary-color);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    border-color: var(--secondary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 `;
 
@@ -258,216 +221,82 @@ const AccountCardHeader = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
   border-bottom: ${props => props.$isExpanded ? '1px solid #eee' : 'none'};
+  border-radius: 16px 16px 0 0;
 `;
 
 const GroupTitle = styled.h3`
-  font-weight: 400;
-  font-size: 1rem;
-  color: #333;
   margin: 0;
-  text-align: left;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-size: 1.1rem;
 `;
 
 const ExpandIcon = styled.span<{ $isExpanded: boolean }>`
   font-size: 1.5rem;
-  line-height: 1;
-  color: var(--secondary-color);
+  font-weight: 300;
   transition: transform 0.3s ease;
-  transform: ${props => props.$isExpanded ? 'rotate(0deg)' : 'rotate(0deg)'};
 `;
 
 const AccountRowsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  padding: 1rem 1.5rem 1.5rem;
+  border-radius: 0 0 16px 16px;
 `;
 
 const AccountRow = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid #f5f5f5;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
   
   &:last-child {
     border-bottom: none;
-  }
-
-  @media (max-width: 580px) {
-    padding: 1rem 1rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1rem 0.75rem;
-  }
-
-  @media (max-width: 380px) {
-    padding: 1rem 0.55rem;
   }
 `;
 
 const AccountRowTitle = styled.div`
   font-weight: 500;
-  font-size: 0.95rem;
-  color: var(--secondary-color);
-  min-width: 100px;
-  text-align: left;
-
-  @media (max-width: 580px) {
-    min-width: 67.5px;
-  }
-
-  @media (max-width: 480px) {
-    min-width: 55px;
-  }
-`;
-
-const NameSpan = styled.span`
-  font-weight: 400;
-  font-size: 0.85rem;
-  color: var(--text-medium);
+  color: var(--text-dark);
+  min-width: 3rem;
 `;
 
 const AccountRowInfo = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.1rem;
-  min-width: 0;
+  gap: 0.25rem;
+  margin: 0 1rem;
 `;
 
 const AccountBank = styled.div`
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-medium);
-  white-space: nowrap;
-  font-size: 0.85rem;
-  line-height: 1.3;
-  @media (max-width: 580px) {
-    font-size: 0.75rem;
-  }
 `;
 
 const AccountNumber = styled.div`
-  font-weight: 500;
-  font-size: clamp(0.7rem, 4vw, 1.1rem);
-  color: var(--text-dark);
-  font-size: 0.95rem;
-  line-height: 1.3;
-  word-break: break-all;
-  @media (max-width: 580px) {
-    font-size: 0.85rem;
-  }
+  font-size: 0.85rem;
+  color: var(--text-light);
 `;
 
 const CopyButton = styled.button`
-  background-color: transparent;
-  border: 1px solid var(--secondary-color);
+  background-color: white;
   color: var(--secondary-color);
-  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--secondary-color);
+  padding: 0.35rem 0.75rem;
   border-radius: 4px;
-  cursor: pointer;
   font-size: 0.85rem;
-  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  white-space: nowrap;
+  cursor: pointer;
   transition: all 0.2s ease;
-  margin-left: 0.5rem;
-  position: relative;
-  overflow: hidden;
   
-  &:hover, &:active {
+  &:hover {
     background-color: var(--secondary-color);
     color: white;
   }
   
   &:active {
     transform: translateY(1px);
-  }
-  
-  &:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
-  }
-  
-  &:active:after {
-    animation: ripple 0.6s ease-out;
-  }
-  
-  @keyframes ripple {
-    0% {
-      transform: scale(0, 0);
-      opacity: 0.5;
-    }
-    20% {
-      transform: scale(25, 25);
-      opacity: 0.3;
-    }
-    100% {
-      opacity: 0;
-      transform: scale(40, 40);
-    }
-  }
-`;
-
-const ShareContainer = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-const ShareButton = styled.button<{ $isShare?: boolean }>`
-  background-color: var(--secondary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  flex: 1;
-  max-width: 180px;
-  
-  &:hover {
-    background-color: #c4a986;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  }
-  
-  &:active {
-    transform: translateY(1px);
-  }
-  
-  &:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
-  }
-  
-  &:active:after {
-    animation: ripple 0.6s ease-out;
   }
 `;
 

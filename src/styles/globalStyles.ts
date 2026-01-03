@@ -21,6 +21,14 @@ const watermarkId = weddingConfig.meta._jwk_watermark_id || 'JWK-NonCommercial';
 export const GlobalStyle = createGlobalStyle`
   /* 폰트 로딩 전에 적용될 스타일 */
   @font-face {
+    font-family: 'bada';
+    src: url('/fonts/bada.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+
+  @font-face {
     font-family: 'MaruBuri';
     src: url('/fonts/MaruBuri-ExtraLight.ttf') format('truetype');
     font-weight: 200;
@@ -84,7 +92,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   body {
-    font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-family: 'bada', 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
     color: #333333;
     margin: 0;
     padding: 0;

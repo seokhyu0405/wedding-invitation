@@ -659,7 +659,7 @@ const NavButton = styled.button<{ disabled?: boolean }>`
 const ImageCounter = styled.span`
   color: white;
   font-size: 1rem;
-  font-family: 'MaruBuri', sans-serif;
+  font-family: 'bada', 'MaruBuri', sans-serif;
   min-width: 4rem;
   text-align: center;
 `;

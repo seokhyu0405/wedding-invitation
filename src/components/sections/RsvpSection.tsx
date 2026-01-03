@@ -370,7 +370,7 @@ const AttendanceButton = styled.button<{ $selected?: boolean }>`
   background-color: ${props => props.$selected ? 'var(--secondary-color)' : 'transparent'};
   color: ${props => props.$selected ? 'white' : 'var(--text-medium)'};
   font-size: 0.9rem;
-  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-family: 'bada', 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -447,7 +447,7 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-family: 'bada', 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import Image from 'next/image';
 import { weddingConfig } from '../../config/wedding-config';
 import FadeInUp from '../animations/FadeInUp';
 
@@ -201,9 +202,27 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       <FadeInUp delay={0.3}>
         <NavigateButtonsContainer>
           <NavigateButton onClick={navigateToNaver} $mapType="naver">
+            <NavigateIconWrapper>
+              <Image 
+                src="/icon/naver.png" 
+                alt="네이버 지도" 
+                width={20} 
+                height={20}
+                style={{ objectFit: 'contain' }}
+              />
+            </NavigateIconWrapper>
             네이버 지도
           </NavigateButton>
           <NavigateButton onClick={navigateToKakao} $mapType="kakao">
+            <NavigateIconWrapper>
+              <Image 
+                src="/icon/kakao.png" 
+                alt="카카오맵" 
+                width={20} 
+                height={20}
+                style={{ objectFit: 'contain' }}
+              />
+            </NavigateIconWrapper>
             카카오맵
           </NavigateButton>
         </NavigateButtonsContainer>
@@ -213,11 +232,33 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
         <TransportCard>
           <CardTitle>대중교통 안내</CardTitle>
           <TransportItem>
-            <TransportLabel>지하철</TransportLabel>
+            <TransportLabel>
+              <TransportIconWrapper>
+                <Image 
+                  src="/icon/train.png" 
+                  alt="지하철" 
+                  width={18} 
+                  height={18}
+                  style={{ objectFit: 'contain' }}
+                />
+              </TransportIconWrapper>
+              지하철
+            </TransportLabel>
             <TransportText>{weddingConfig.venue.transportation.subway}</TransportText>
           </TransportItem>
           <TransportItem>
-            <TransportLabel>버스</TransportLabel>
+            <TransportLabel>
+              <TransportIconWrapper>
+                <Image 
+                  src="/icon/bus.png" 
+                  alt="버스" 
+                  width={18} 
+                  height={18}
+                  style={{ objectFit: 'contain' }}
+                />
+              </TransportIconWrapper>
+              버스
+            </TransportLabel>
             <TransportText>{weddingConfig.venue.transportation.bus}</TransportText>
           </TransportItem>
         </TransportCard>
@@ -226,7 +267,18 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       <FadeInUp delay={0.5}>
         <ParkingCard>
           <CardTitle>주차 안내</CardTitle>
-          <TransportText>{weddingConfig.venue.parking}</TransportText>
+          <ParkingTextContainer>
+            <TransportIconWrapper>
+              <Image 
+                src="/icon/parking.png" 
+                alt="주차" 
+                width={18} 
+                height={18}
+                style={{ objectFit: 'contain' }}
+              />
+            </TransportIconWrapper>
+            <TransportText>{weddingConfig.venue.parking}</TransportText>
+          </ParkingTextContainer>
         </ParkingCard>
       </FadeInUp>
       
@@ -339,6 +391,9 @@ const NavigateButtonsContainer = styled.div`
 `;
 
 const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   min-width: 6rem;
   background-color: var(--secondary-color);
@@ -347,7 +402,7 @@ const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' }>`
   border-radius: 4px;
   padding: 0.5rem 0.5rem;
   font-size: 0.9rem;
-  font-family: 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-family: 'bada', 'MaruBuri', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -397,6 +452,16 @@ const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' }>`
   }
 `;
 
+const NavigateIconWrapper = styled.div`
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Card = styled.div`
   background-color: white;
   border-radius: 8px;
@@ -423,18 +488,39 @@ const CardTitle = styled.h4`
 `;
 
 const TransportItem = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 0.75rem;
 `;
 
 const TransportLabel = styled.p`
+  display: flex;
+  align-items: center;
   font-weight: 500;
   font-size: 0.8rem;
+  margin: 0;
 `;
 
 const TransportText = styled.p`
   font-size: 0.75rem;
   color: var(--text-medium);
   white-space: pre-line;
+  margin: 0;
+`;
+
+const ParkingTextContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
+const TransportIconWrapper = styled.div`
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ShuttleInfo = styled.div`
