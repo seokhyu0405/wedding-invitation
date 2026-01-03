@@ -63,7 +63,6 @@ const MainSectionContainer = styled.section`
     max-width: calc(100svh * 9 / 16);
     width: auto;
     margin: 0 auto;
-    border-radius: 24px;
     box-shadow: 0 0 32px rgba(0,0,0,0.08);
   }
 `;

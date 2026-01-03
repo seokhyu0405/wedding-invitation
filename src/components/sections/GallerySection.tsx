@@ -52,6 +52,9 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   const [isExpandedImageLoading, setIsExpandedImageLoading] = useState<boolean>(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   
+  // 썸네일로 보여줄 이미지 개수
+  const THUMBNAIL_COUNT = 9;
+  
   // 갤러리 레이아웃 모드 (scroll 또는 grid)
   const galleryLayout = weddingConfig.gallery.layout || 'scroll';
   
@@ -299,7 +302,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
         {galleryLayout === 'grid' ? (
         // 그리드 레이아웃
         <GalleryGridContainer>
-          {images.map((image, index) => (
+          {images.slice(0, THUMBNAIL_COUNT).map((image, index) => (
             <GalleryGridCard key={index} onClick={() => handleImageClick(image)}>
               <GalleryGridImageWrapper>
                 <GalleryNextImage 
@@ -325,7 +328,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
           </GalleryButton>
           
           <GalleryScrollContainer ref={scrollContainerRef}>
-            {images.map((image, index) => (
+            {images.slice(0, THUMBNAIL_COUNT).map((image, index) => (
               <GalleryCard key={index} onClick={() => handleImageClick(image)}>
                 <GalleryImageWrapper>
                   <GalleryNextImage 
@@ -460,7 +463,7 @@ const GalleryScrollContainer = styled.div`
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: 1rem;
+  gap: 0.25rem;
   padding: 1rem 0.5rem;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -478,7 +481,6 @@ const GalleryCard = styled.div`
   scroll-snap-align: center;
   flex: 0 0 auto;
   width: 250px;
-  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -496,7 +498,6 @@ const GalleryImageWrapper = styled.div`
 `;
 
 const GalleryNextImage = styled(Image)`
-  border-radius: 8px;
   transition: transform 0.3s;
   
   &:hover {
@@ -674,21 +675,20 @@ const ImageCounter = styled.span`
 const GalleryGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0.25rem;
   max-width: 800px;
   margin: 2rem auto 0;
   padding: 0 1rem;
   
   @media (max-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    gap: 0.25rem;
     padding: 0 0.5rem;
     margin-top: 1.5rem;
   }
 `;
 
 const GalleryGridCard = styled.div`
-  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   overflow: hidden;
   transition: transform 0.3s ease;
