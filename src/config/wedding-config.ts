@@ -15,7 +15,7 @@ export const weddingConfig = {
   meta: {
     title: "원석 🤍 상휴 결혼합니다",
     description: "aT포레웨딩홀 | 2026년 4월 5일 12시반",
-    ogImage: "/images/gallery/KakaoTalk_Photo_2026-01-04-04-05-26 019.jpeg",
+    ogImage: "/images/gallery/KakaoTalk_Photo_2026-01-04-04-05-22 014.jpeg",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
   },
