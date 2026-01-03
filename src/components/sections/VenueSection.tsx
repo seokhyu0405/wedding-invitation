@@ -493,7 +493,7 @@ const TransportItem = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-const TransportLabel = styled.p`
+const TransportLabel = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
