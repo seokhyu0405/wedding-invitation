@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 
@@ -9,8 +9,19 @@ import { weddingConfig } from '../../config/wedding-config';
 const watermarkId = weddingConfig.meta._jwk_watermark_id || 'JWK-NonCommercial';
 
 const MainSection = () => {
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    // 초기 뷰포트 높이를 한 번만 저장하여 스크롤 시 주소창 변화로 인한 리사이즈 방지
+    const initialHeight = window.innerHeight;
+    setViewportHeight(initialHeight);
+  }, []);
+
   return (
-    <MainSectionContainer className={`wedding-container jwk-${watermarkId.slice(0, 8)}-main`}>
+    <MainSectionContainer 
+      className={`wedding-container jwk-${watermarkId.slice(0, 8)}-main`}
+      $fixedHeight={viewportHeight}
+    >
       <BackgroundImageWrapper>
         <BackgroundImage 
           src={weddingConfig.main.image}
@@ -44,10 +55,10 @@ const MainSection = () => {
   );
 };
 
-const MainSectionContainer = styled.section`
+const MainSectionContainer = styled.section<{ $fixedHeight: number | null }>`
   position: relative;
-  height: 100svh;
-  min-height: 100svh;
+  height: ${props => props.$fixedHeight ? `${props.$fixedHeight}px` : '100svh'};
+  min-height: ${props => props.$fixedHeight ? `${props.$fixedHeight}px` : '100svh'};
   width: 100vw;
   max-width: 100vw;
   overflow: hidden;
@@ -62,7 +73,7 @@ const MainSectionContainer = styled.section`
   
   @media (min-width: 768px) and (min-height: 780px) {
     aspect-ratio: 9 / 16;
-    max-width: calc(100svh * 9 / 16);
+    max-width: ${props => props.$fixedHeight ? `calc(${props.$fixedHeight}px * 9 / 16)` : 'calc(100svh * 9 / 16)'};
     width: auto;
     margin: 0 auto;
     box-shadow: 0 0 32px rgba(0,0,0,0.08);
