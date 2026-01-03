@@ -45,8 +45,8 @@ const MainSection = () => {
 
 const MainSectionContainer = styled.section`
   position: relative;
-  height: 100vh;
-  min-height: 100vh;
+  height: 100svh;
+  min-height: 100svh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@ const MainSectionContainer = styled.section`
 
   @media (min-width: 768px) and (min-height: 780px) {
     aspect-ratio: 9 / 16;
-    max-width: calc(100vh * 9 / 16);
+    max-width: calc(100svh * 9 / 16);
     width: auto;
     margin: 0 auto;
     border-radius: 24px;

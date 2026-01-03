@@ -25,7 +25,7 @@ export const weddingConfig = {
     title: "Wedding Invitation",
     image: "/images/main.jpeg",
     date: "2026년 4월 5일 일요일 12시 30분",
-    venue: "at포레웨딩홀"
+    venue: "aT포레웨딩홀"
   },
 
   // 소개글
