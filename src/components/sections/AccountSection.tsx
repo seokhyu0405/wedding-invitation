@@ -79,9 +79,9 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
     // 1줄: 은행명, 2줄: 계좌번호 + 예금주
     const bankText = accountInfo.bank;
     const numberAndHolder = `${accountInfo.number} ${accountInfo.holder}`;
-
-    // 복사할 텍스트: '은행명 계좌번호 (예금주)'
-    const copyText = `${accountInfo.bank} ${accountInfo.number} ${accountInfo.holder}`;
+    
+    // 복사할 텍스트: 계좌번호만
+    const copyText = accountInfo.number;
 
     return (
       <AccountRow>

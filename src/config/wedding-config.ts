@@ -13,9 +13,9 @@ interface GalleryConfig {
 export const weddingConfig = {
   // 메타 정보
   meta: {
-    title: "♡⁺｡⋆ 원석 🤍 상휴 결혼해요 ⁺｡⋆♡",
+    title: "원석 🤍 상휴 결혼합니다",
     description: "aT포레웨딩홀 | 2026년 4월 5일 12시반",
-    ogImage: "/images/main.jpeg",
+    ogImage: "/images/gallery/KakaoTalk_Photo_2026-01-04-04-05-26 019.jpeg",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
   },
@@ -23,7 +23,7 @@ export const weddingConfig = {
   // 메인 화면
   main: {
     title: "Wedding Invitation",
-    image: "/images/main.jpeg",
+    image: "/images/main2.jpeg",
     date: "2026년 4월 5일 일요일 12시 30분",
     venue: "aT포레웨딩홀"
   },
@@ -127,7 +127,7 @@ export const weddingConfig = {
 
   // 초대의 말씀
   invitation: {
-    message: "한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.\n\n",
+    message: "♡⁺｡⋆⁺｡⋆♡ \n\n한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.\n\n ♡⁺｡⋆⁺｡⋆♡ \n\n",
     groom: {
       name: "양원석",
       label: "아들",
@@ -160,8 +160,8 @@ export const weddingConfig = {
       holder: "양원석",
     },
     bride: {
-      bank: "은행명",
-      number: "987-654-321098",
+      bank: "국민은행",
+      number: "94300952066",
       holder: "윤상휴",
     },
     groomFather: {
