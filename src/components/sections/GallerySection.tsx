@@ -530,6 +530,7 @@ const ExpandedImageOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: pan-x pan-y;
 `;
 
 const ExpandedImageContainer = styled.div`
@@ -554,6 +555,7 @@ const ExpandedImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: pan-x pan-y;
 `;
 
 const CloseButton = styled.button`
