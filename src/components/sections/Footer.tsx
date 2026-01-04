@@ -18,7 +18,7 @@ const Footer = () => {
       {/* WeddingInvitation-Footer-NonCommercial DO NOT CHANGE*/}
       <FooterContent>
         <Copyright>Wonseok and Sanghyu</Copyright>
-        <Credits>Made with love</Credits>
+        <Credits>Since 20230409<br />Made with love</Credits>
         <HiddenAttribution data-jwk-id={watermarkId}>
           NonCommercial
         </HiddenAttribution>
