@@ -1,10 +1,42 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { weddingConfig } from '../../config/wedding-config';
 import FadeInUp from '../animations/FadeInUp';
+
+declare global {
+  interface Window {
+    Kakao: {
+      init: (key: string) => void;
+      isInitialized: () => boolean;
+      Share: {
+        sendDefault: (options: KakaoShareOptions) => void;
+      };
+    };
+  }
+}
+
+interface KakaoShareOptions {
+  objectType: 'feed';
+  content: {
+    title: string;
+    description: string;
+    imageUrl: string;
+    link: {
+      mobileWebUrl: string;
+      webUrl: string;
+    };
+  };
+  buttons?: Array<{
+    title: string;
+    link: {
+      mobileWebUrl: string;
+      webUrl: string;
+    };
+  }>;
+}
 
 interface ShareSectionProps {
   bgColor?: 'white' | 'beige';
@@ -12,42 +44,85 @@ interface ShareSectionProps {
 
 const ShareSection = ({ bgColor = 'white' }: ShareSectionProps) => {
   const [urlCopied, setUrlCopied] = useState(false);
+  const [kakaoReady, setKakaoReady] = useState(false);
 
-  // URL 복사 함수
-  const copyWebsiteUrl = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(
-      () => {
-        setUrlCopied(true);
-        setTimeout(() => {
-          setUrlCopied(false);
-        }, 2000);
-      },
-      (err) => {
-        console.error('URL 복사 실패:', err);
-      }
-    );
-  };
-  
-  // 웹 공유 API를 사용한 공유 함수
-  const shareWebsite = async () => {
-    const shareData = {
-      title: weddingConfig.meta.title,
-      text: `${weddingConfig.invitation.groom.name} ♥ ${weddingConfig.invitation.bride.name}의 결혼식에 초대합니다`,
-      url: window.location.href,
-    };
-    
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        // 공유 API를 지원하지 않는 경우 URL 복사로 대체
-        copyWebsiteUrl();
-        alert('이 브라우저는 공유 기능을 지원하지 않습니다. URL이 복사되었습니다.');
-      }
-    } catch (error) {
-      console.error('공유 실패:', error);
+  useEffect(() => {
+    const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY;
+    if (!kakaoKey) return;
+
+    if (window.Kakao?.isInitialized?.()) {
+      setKakaoReady(true);
+      return;
     }
+
+    const script = document.createElement('script');
+    script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.Kakao && !window.Kakao.isInitialized()) {
+        window.Kakao.init(kakaoKey);
+        setKakaoReady(true);
+      }
+    };
+    document.head.appendChild(script);
+  }, []);
+
+  const copyWithFallback = async (text: string): Promise<void> => {
+    if (navigator.clipboard?.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  };
+
+  const copyWebsiteUrl = async () => {
+    try {
+      await copyWithFallback(window.location.href);
+      setUrlCopied(true);
+      setTimeout(() => {
+        setUrlCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error('URL 복사 실패:', err);
+    }
+  };
+
+  const shareKakao = () => {
+    if (!kakaoReady || !window.Kakao) {
+      alert('카카오톡 공유 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+    const imageUrl = `${siteUrl}${weddingConfig.meta.ogImage}`;
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: weddingConfig.meta.title,
+        description: `${weddingConfig.main.date}\n${weddingConfig.venue.name}`,
+        imageUrl,
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '청첩장 보기',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
   };
 
   return (
@@ -66,17 +141,17 @@ const ShareSection = ({ bgColor = 'white' }: ShareSectionProps) => {
             </ShareIconWrapper>
             {urlCopied ? '복사 완료!' : 'URL 복사하기'}
           </ShareButton>
-          <ShareButton onClick={shareWebsite} $isShare={true}>
+          <ShareButton onClick={shareKakao} $isShare={true}>
             <ShareIconWrapper>
               <Image 
                 src="/icon/katalk.png" 
-                alt="공유하기" 
+                alt="카카오톡 공유" 
                 width={20} 
                 height={20}
                 style={{ objectFit: 'contain' }}
               />
             </ShareIconWrapper>
-            공유하기
+            카카오톡 공유하기
           </ShareButton>
         </ShareContainer>
       </FadeInUp>

@@ -34,18 +34,30 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
     }
   };
 
-  const copyToClipboard = (text: string, person: AccountPerson) => {
-    navigator.clipboard.writeText(text).then(
-      () => {
-        setCopyStatus({ ...copyStatus, [person]: true });
-        setTimeout(() => {
-          setCopyStatus({ ...copyStatus, [person]: false });
-        }, 2000);
-      },
-      (err) => {
-        console.error('계좌번호 복사 실패:', err);
-      }
-    );
+  const copyWithFallback = async (text: string): Promise<void> => {
+    if (navigator.clipboard?.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  };
+
+  const copyToClipboard = async (text: string, person: AccountPerson) => {
+    try {
+      await copyWithFallback(text);
+      setCopyStatus(prev => ({ ...prev, [person]: true }));
+      setTimeout(() => {
+        setCopyStatus(prev => ({ ...prev, [person]: false }));
+      }, 2000);
+    } catch (err) {
+      console.error('계좌번호 복사 실패:', err);
+    }
   };
   
   // 각 인물에 해당하는 이름 가져오기
@@ -287,6 +299,7 @@ const CopyButton = styled.button`
   padding: 0.35rem 0.75rem;
   border-radius: 4px;
   font-size: 0.85rem;
+  font-family: 'bada', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   
