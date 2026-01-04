@@ -17,8 +17,8 @@ const Footer = () => {
     <FooterContainer>
       {/* WeddingInvitation-Footer-NonCommercial DO NOT CHANGE*/}
       <FooterContent>
-        <Copyright>© {currentYear} Wonseok and Sanghyu</Copyright>
-        <Credits>Made with love.</Credits>
+        <Copyright>Wonseok and Sanghyu</Copyright>
+        <Credits>Made with love</Credits>
         <HiddenAttribution data-jwk-id={watermarkId}>
           NonCommercial
         </HiddenAttribution>
@@ -43,12 +43,14 @@ const FooterContent = styled.div`
 `;
 
 const Copyright = styled.p`
-  font-size: 0.875rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', serif;
+  font-size: 1.1rem;
   color: var(--text-medium);
 `;
 
 const Credits = styled.p`
-  font-size: 0.75rem;
+  font-family: 'GoldenPlains', 'PlayfairDisplay', serif;
+  font-size: 0.9rem;
   color: var(--text-light);
 `;
 

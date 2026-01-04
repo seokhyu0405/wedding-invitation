@@ -273,18 +273,6 @@ const SectionTitle = styled.h2`
   font-weight: 500;
   font-size: 1.75rem;
   letter-spacing: 0.1em;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-  }
 `;
 
 const RsvpDescription = styled.p`

@@ -76,8 +76,8 @@ export default function Home() {
       {showRsvp && <RsvpSection bgColor={sectionColorMap['rsvp']} />}
       {galleryPosition === 'bottom' && <GallerySection bgColor={sectionColorMap['gallery-bottom']} />}
       <ContactSection bgColor={sectionColorMap['contact']} />
-      <AccountSection bgColor={sectionColorMap['account']} />
-      <ShareSection bgColor={sectionColorMap['account']} />
+      <AccountSection bgColor={sectionColorMap['venue']} />
+      <ShareSection bgColor={sectionColorMap['venue']} />
       <Footer />
     </main>
   );

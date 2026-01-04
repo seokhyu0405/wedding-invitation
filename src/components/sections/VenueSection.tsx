@@ -300,18 +300,6 @@ const SectionTitle = styled.h2`
   font-weight: normal;
   font-size: 2rem;
   letter-spacing: 0.05em;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-  }
 `;
 
 const VenueInfo = styled.div`

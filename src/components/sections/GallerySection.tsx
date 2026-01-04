@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { weddingConfig } from '../../config/wedding-config';
 import FadeInUp from '../animations/FadeInUp';
+import path from 'path';
 
 interface GallerySectionProps {
   bgColor?: 'white' | 'beige';
@@ -43,7 +44,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const [expandedImageIndex, setExpandedImageIndex] = useState<number>(-1);
-  const [isExpandedImageLoading, setIsExpandedImageLoading] = useState<boolean>(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   
   // 썸네일로 보여줄 이미지 개수
@@ -71,7 +72,13 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
         const data = await response.json();
         
         if (data.images && data.images.length > 0) {
-          setImages(data.images);
+          // 경로의 파일명 기준으로 정렬하여 순서 일치
+          const sortedImages = [...data.images].sort((a, b) => {
+            const filenameA = path.basename(a);
+            const filenameB = path.basename(b);
+            return filenameA.localeCompare(filenameB);
+          });
+          setImages(sortedImages);
         } else {
           // API에서 이미지를 가져오지 못한 경우 기본 설정 사용
           setImages(weddingConfig.gallery.images);
@@ -173,40 +180,35 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
     }
   };
 
-  const handleImageClick = (image: string) => {
-    const imageIndex = images.indexOf(image);
-    setExpandedImage(image);
-    setExpandedImageIndex(imageIndex);
-    setIsExpandedImageLoading(true); // 이미지 로딩 시작
-    // 확대 이미지가 표시될 때 스크롤 방지
+  const handleImageClick = (index: number) => {
+    setIsImageLoading(true);
+    setExpandedImage(images[index]);
+    setExpandedImageIndex(index);
     document.body.style.overflow = 'hidden';
   };
 
   const goToPreviousImage = () => {
     if (expandedImageIndex > 0) {
       const newIndex = expandedImageIndex - 1;
+      setIsImageLoading(true);
       setExpandedImageIndex(newIndex);
       setExpandedImage(images[newIndex]);
-      setIsExpandedImageLoading(true); // 새 이미지 로딩 시작
     }
   };
 
   const goToNextImage = () => {
     if (expandedImageIndex < images.length - 1) {
       const newIndex = expandedImageIndex + 1;
+      setIsImageLoading(true);
       setExpandedImageIndex(newIndex);
       setExpandedImage(images[newIndex]);
-      setIsExpandedImageLoading(true); // 새 이미지 로딩 시작
     }
   };
 
   const handleCloseExpanded = () => {
     setExpandedImage(null);
     setExpandedImageIndex(-1);
-    setIsExpandedImageLoading(false); // 로딩 상태 리셋
-    // 확대 이미지가 닫힐 때 스크롤 허용
     document.body.style.overflow = '';
-    // 뒤로가기 히스토리 처리
     if (window.history.state && window.history.state.expandedImage) {
       window.history.back();
     }
@@ -256,16 +258,6 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
     }
   }, [expandedImage, expandedImageIndex, images]);
   
-  // 확대된 이미지 로드 완료 핸들러
-  const handleExpandedImageLoad = () => {
-    setIsExpandedImageLoading(false);
-  };
-
-  // 확대된 이미지 로드 에러 핸들러
-  const handleExpandedImageError = () => {
-    setIsExpandedImageLoading(false);
-  };
-  
   if (isLoading) {
     return (
       <GallerySectionContainer $bgColor={bgColor}>
@@ -297,7 +289,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
         // 그리드 레이아웃
         <GalleryGridContainer>
           {images.slice(0, THUMBNAIL_COUNT).map((image, index) => (
-            <GalleryGridCard key={index} onClick={() => handleImageClick(image)}>
+            <GalleryGridCard key={index} onClick={() => handleImageClick(index)}>
               <GalleryGridImageWrapper>
                 <GalleryNextImage 
                   src={image}
@@ -323,7 +315,7 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
           
           <GalleryScrollContainer ref={scrollContainerRef}>
             {images.slice(0, THUMBNAIL_COUNT).map((image, index) => (
-              <GalleryCard key={index} onClick={() => handleImageClick(image)}>
+              <GalleryCard key={index} onClick={() => handleImageClick(index)}>
                 <GalleryImageWrapper>
                   <GalleryNextImage 
                     src={image}
@@ -349,46 +341,52 @@ const GallerySection = ({ bgColor = 'white' }: GallerySectionProps) => {
       </FadeInUp>
 
       {expandedImage && (
-        <ExpandedImageOverlay 
-          ref={overlayRef} 
+        <ExpandedImageOverlay
+          ref={overlayRef}
           onClick={handleCloseExpanded}
           aria-modal="true"
           role="dialog"
         >
           <ExpandedImageContainer onClick={e => e.stopPropagation()}>
-            {isExpandedImageLoading && (
-              <LoadingSpinnerContainer>
-                <LoadingSpinner />
-              </LoadingSpinnerContainer>
-            )}
-            <ExpandedImageWrapper $isLoading={isExpandedImageLoading}>
-              <Image 
+            <ExpandedImageWrapper key={expandedImageIndex}>
+              {isImageLoading && (
+                <LoadingSpinnerContainer>
+                  <LoadingSpinner />
+                </LoadingSpinnerContainer>
+              )}
+              <Image
+                key={expandedImage}
                 src={expandedImage}
-                alt="확대된 웨딩 갤러리 이미지"
+                alt={`웨딩 갤러리 이미지 ${expandedImageIndex + 1}`}
                 fill
                 sizes="90vw"
                 quality={90}
-                style={{ objectFit: 'contain', background: 'transparent' }}
+                priority
+                style={{
+                  objectFit: 'contain',
+                  background: 'transparent',
+                  opacity: isImageLoading ? 0 : 1,
+                  transition: 'opacity 0.2s ease-in-out'
+                }}
                 draggable={false}
                 onContextMenu={e => e.preventDefault()}
-                onLoad={handleExpandedImageLoad}
-                onError={handleExpandedImageError}
+                onLoadingComplete={() => setIsImageLoading(false)}
               />
             </ExpandedImageWrapper>
             <CloseButton onClick={handleCloseExpanded} aria-label="닫기">×</CloseButton>
-            
+
             {/* 하단 네비게이션 버튼 */}
             <BottomNavigation>
-              <NavButton 
-                onClick={goToPreviousImage} 
+              <NavButton
+                onClick={goToPreviousImage}
                 disabled={expandedImageIndex <= 0}
                 aria-label="이전 이미지"
               >
                 <ArrowLeftIcon />
               </NavButton>
               <ImageCounter>{expandedImageIndex + 1} / {images.length}</ImageCounter>
-              <NavButton 
-                onClick={goToNextImage} 
+              <NavButton
+                onClick={goToNextImage}
                 disabled={expandedImageIndex >= images.length - 1}
                 aria-label="다음 이미지"
               >
@@ -416,18 +414,6 @@ const SectionTitle = styled.h2`
   font-weight: normal;
   font-size: 2rem;
   letter-spacing: 0.05em;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-  }
 `;
 
 const GalleryContainer = styled.div`
@@ -559,7 +545,7 @@ const ExpandedImageContainer = styled.div`
   justify-content: center;
 `;
 
-const ExpandedImageWrapper = styled.div<{ $isLoading: boolean }>`
+const ExpandedImageWrapper = styled.div`
   position: relative;
   width: 90vw;
   height: 90vh;
@@ -568,8 +554,6 @@ const ExpandedImageWrapper = styled.div<{ $isLoading: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: ${({ $isLoading }) => $isLoading ? 0.5 : 1};
-  transition: opacity 0.3s ease;
 `;
 
 const CloseButton = styled.button`

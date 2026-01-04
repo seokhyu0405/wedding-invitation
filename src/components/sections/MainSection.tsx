@@ -128,6 +128,23 @@ const MainTitle = styled.h1`
   margin-bottom: 1.5rem;
   font-weight: 400;
   line-height: 1.2;
+  background: linear-gradient(90deg, white 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: handwriting 2s ease-out forwards;
+  animation-delay: 0.5s;
+  
+  @keyframes handwriting {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: 0% 0;
+    }
+  }
   
   @media (max-width: 768px) {
     font-size: 3rem;
