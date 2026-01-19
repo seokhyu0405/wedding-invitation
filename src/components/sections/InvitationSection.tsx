@@ -57,8 +57,20 @@ const InvitationSection = ({ bgColor = 'white' }: InvitationSectionProps) => {
           {invitation.message}
         </InvitationMessage>
       </FadeInUp>
-      
-      <FadeInUp delay={0.2}>
+
+      {invitation.photo && (
+        <FadeInUp delay={0.2}>
+          <InvitationPhoto>
+            <img
+              src={invitation.photo}
+              alt="커플 사진"
+              style={{ width: '100%', height: 'auto', maxWidth: '600px' }}
+            />
+          </InvitationPhoto>
+        </FadeInUp>
+      )}
+
+      <FadeInUp delay={invitation.photo ? 0.4 : 0.2}>
         <CoupleContainer>
           <CoupleInfo>
             {hasGroomParents ? (
@@ -138,6 +150,12 @@ const ParentLabel = styled.span`
 const CoupleName = styled.p`
   font-size: 1.25rem;
   font-weight: 500;
+`;
+
+const InvitationPhoto = styled.div`
+  margin: 2rem auto;
+  max-width: 300px;
+  text-align: center;
 `;
 
 export default InvitationSection; 

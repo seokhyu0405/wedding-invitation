@@ -14,7 +14,7 @@ export const weddingConfig = {
   // 메타 정보
   meta: {
     title: "원석 ♡ 상휴 결혼합니다",
-    description: "aT포레웨딩홀 | 2026년 4월 5일 12시반",
+    description: "aT포레웨딩홀 | 2026년 4월 5일 12시 30분",
     ogImage: "/images/gallery/KakaoTalk_Photo_2026-01-04-04-05-22 014.jpeg",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
@@ -128,6 +128,7 @@ export const weddingConfig = {
   // 초대의 말씀
   invitation: {
     message: "♡⁺｡⋆⁺｡⋆♡ \n\n한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.\n\n ♡⁺｡⋆⁺｡⋆♡ \n\n",
+    photo: "/images/gallery/KakaoTalk_Photo_2026-01-04-04-05-22_014.jpeg",
     groom: {
       name: "양원석",
       label: "아들",
