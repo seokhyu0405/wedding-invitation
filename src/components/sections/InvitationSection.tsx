@@ -64,7 +64,7 @@ const InvitationSection = ({ bgColor = 'white' }: InvitationSectionProps) => {
             <img
               src={invitation.photo}
               alt="커플 사진"
-              style={{ width: '100%', height: 'auto', maxWidth: '600px' }}
+              style={{ width: '100%', height: 'auto' }}
             />
           </InvitationPhoto>
         </FadeInUp>
@@ -154,8 +154,19 @@ const CoupleName = styled.p`
 
 const InvitationPhoto = styled.div`
   margin: 2rem auto;
-  max-width: 300px;
+  width: 100%;
+  max-width: 400px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    max-width: calc(100svh * 9 / 16);
+    width: auto;
+  }
+
+  @media (max-width: 768px) {
+    max-width: none;
+    width: 100%;
+  }
 `;
 
 export default InvitationSection; 
