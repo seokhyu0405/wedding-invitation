@@ -165,7 +165,9 @@ const InvitationPhoto = styled.div`
 
   @media (max-width: 768px) {
     max-width: none;
-    width: 100%;
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
   }
 `;
 
