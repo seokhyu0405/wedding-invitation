@@ -139,7 +139,7 @@ export const weddingConfig = {
 
   // 초대의 말씀
   invitation: {
-    message: "♡⁺｡⋆⁺｡⋆♡ \n\n한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.\n\n ♡⁺｡⋆⁺｡⋆♡ \n\n",
+    message: "♡⁺｡⋆⁺｡⋆♡ \n\n수많은 변수들 속에서\n서로라는 최적의 해를 찾았습니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.\n\n ♡⁺｡⋆⁺｡⋆♡ \n\n",
     photo: "/images/main3.jpeg",
     groom: {
       name: "양원석",
@@ -168,8 +168,8 @@ export const weddingConfig = {
   // 계좌번호
   account: {
     groom: {
-      bank: "은행명",
-      number: "123-456-789012",
+      bank: "농협은행",
+      number: "3028834933461",
       holder: "양원석",
     },
     bride: {
@@ -178,13 +178,13 @@ export const weddingConfig = {
       holder: "윤상휴",
     },
     groomFather: {
-      bank: "은행명",
-      number: "111-222-333444",
+      bank: "농협은행",
+      number: "1108712019287",
       holder: "양재준",
     },
     groomMother: {
-      bank: "은행명",
-      number: "555-666-777888",
+      bank: "농협은행",
+      number: "3520809481393",
       holder: "김선용",
     },
     brideFather: {
