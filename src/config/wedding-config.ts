@@ -179,7 +179,7 @@ export const weddingConfig = {
     },
     groomFather: {
       bank: "농협은행",
-      number: "1108712019287",
+      number: "108712019287",
       holder: "양재준",
     },
     groomMother: {
