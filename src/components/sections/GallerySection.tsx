@@ -612,7 +612,7 @@ const LoadingSpinnerContainer = styled.div`
 
 const BottomNavigation = styled.div`
   position: absolute;
-  bottom: 4rem;
+  bottom: -0.25rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
