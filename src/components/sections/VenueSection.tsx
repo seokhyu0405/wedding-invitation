@@ -229,6 +229,14 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       </FadeInUp>
       
       <FadeInUp delay={0.4}>
+        <HallCard>
+          <CardTitle>식장 안내</CardTitle>
+          <TransportText style={{ fontSize: '0.9rem' }}>{weddingConfig.venue.hall.location}</TransportText>
+          <TransportText style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>{weddingConfig.venue.hall.reception}</TransportText>
+        </HallCard>
+      </FadeInUp>
+
+      <FadeInUp delay={0.6}>
         <TransportCard>
           <CardTitle>대중교통 안내</CardTitle>
           <TransportItem>
@@ -264,7 +272,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
         </TransportCard>
       </FadeInUp>
       
-      <FadeInUp delay={0.5}>
+      <FadeInUp delay={0.7}>
         <ParkingCard>
           <CardTitle>주차 안내</CardTitle>
           <ParkingTextContainer>
@@ -464,6 +472,7 @@ const Card = styled.div`
 
 const TransportCard = styled(Card)``;
 const ParkingCard = styled(Card)``;
+const HallCard = styled(Card)``;
 const ShuttleCard = styled(Card)`
   padding: 0;
   overflow: hidden;
@@ -472,7 +481,7 @@ const ShuttleCard = styled(Card)`
 const CardTitle = styled.h4`
   font-weight: 500;
   margin-bottom: 0.75rem;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 `;
 
 const TransportItem = styled.div`
@@ -485,12 +494,12 @@ const TransportLabel = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin: 0;
 `;
 
 const TransportText = styled.p`
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--text-medium);
   white-space: pre-line;
   margin: 0;
