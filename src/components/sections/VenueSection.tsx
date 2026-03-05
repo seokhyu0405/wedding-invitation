@@ -472,7 +472,9 @@ const Card = styled.div`
 
 const TransportCard = styled(Card)``;
 const ParkingCard = styled(Card)``;
-const HallCard = styled(Card)``;
+const HallCard = styled(Card)`
+  text-align: center;
+`;
 const ShuttleCard = styled(Card)`
   padding: 0;
   overflow: hidden;
