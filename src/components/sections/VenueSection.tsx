@@ -231,8 +231,8 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       <FadeInUp delay={0.4}>
         <HallCard>
           <CardTitle>식장 안내</CardTitle>
-          <TransportText style={{ fontSize: '0.75rem' }}>{weddingConfig.venue.hall.location}</TransportText>
-          <TransportText style={{ marginTop: '0.5rem', fontSize: '0.75rem' }}>{weddingConfig.venue.hall.reception}</TransportText>
+          <TransportText>{weddingConfig.venue.hall.location}</TransportText>
+          <TransportText style={{ marginTop: '0.5rem' }}>{weddingConfig.venue.hall.reception}</TransportText>
         </HallCard>
       </FadeInUp>
 
